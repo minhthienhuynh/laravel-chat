@@ -9,6 +9,7 @@ return [
      */
     'dashboard' => [
         'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
+        'email_whitelist' => env('LARAVEL_WEBSOCKETS_EMAIL_WHITELIST'),
     ],
 
     /*
