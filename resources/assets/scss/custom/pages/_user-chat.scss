@@ -6,10 +6,45 @@
 // user chat
 
 .user-chat {
-    background: url("../images/bg-pattern/pattern-05.png");
     transition: all 0.4s;
     position: relative;
     background-color: darken($body-bg, 3%);
+
+    &.bg-pattern-1 {
+        background-image: url("../images/bg-pattern/pattern-01.png");
+    }
+
+    &.bg-pattern-2 {
+        background-image: url("../images/bg-pattern/pattern-02.png");
+    }
+
+    &.bg-pattern-3 {
+        background-image: url("../images/bg-pattern/pattern-03.png");
+    }
+
+    &.bg-pattern-4 {
+        background-image: url("../images/bg-pattern/pattern-04.png");
+    }
+
+    &.bg-pattern-5 {
+        background-image: url("../images/bg-pattern/pattern-05.png");
+    }
+
+    &.bg-pattern-6 {
+        background-image: url("../images/bg-pattern/pattern-06.png");
+    }
+
+    &.bg-pattern-7 {
+        background-image: url("../images/bg-pattern/pattern-07.png");
+    }
+
+    &.bg-pattern-8 {
+        background-image: url("../images/bg-pattern/pattern-08.png");
+    }
+
+    &.bg-pattern-9 {
+        background-image: url("../images/bg-pattern/pattern-09.png");
+    }
 
     .user-chat-overlay{
         content: "";

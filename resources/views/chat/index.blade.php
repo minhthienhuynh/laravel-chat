@@ -32,7 +32,12 @@
 
 <x-chat-layout>
     <div class="layout-wrapper d-lg-flex"
-         x-data="{ showUserChat: false }">
+         x-data="{
+            showUserChat: false,
+            bgColor: '{{ \App\Models\User::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
+            bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}'
+         }"
+         :style="bgColor != '' && { '--bs-primary-rgb': bgColor }">
 
         <!-- Start left sidebar-menu -->
         @include('chat.partials.sidebar-menu')
@@ -84,8 +89,9 @@
 
         <!-- Start User chat -->
         <div class="user-chat w-100 overflow-hidden"
-             :class="{ 'user-chat-show': showUserChat }">
-            <div class="user-chat-overlay"></div>
+             :class="{ 'user-chat-show': showUserChat, [bgImage]: true }">
+            <div class="user-chat-overlay"
+                 :style="bgColor != '' && { background: `rgb(${bgColor})` }"></div>
 
             @livewire('user-chat-content')
         </div>

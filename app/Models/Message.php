@@ -31,6 +31,15 @@ class Message extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'content' => 'encrypted',
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array

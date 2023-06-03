@@ -13,10 +13,12 @@ class TabpaneSettings extends Component
         User::STATUS_DO_NOT_DISTURB => ['class' => 'text-danger', 'name' => 'Do not disturb'],
         User::STATUS_INVISIBLE => ['class' => 'text-light', 'name' => 'Invisible'],
     ];
+    public ?array $options;
+    public string $accordionSelected = 'personalinfo';
 
     public function mount()
     {
-        //
+        $this->options = auth()->user()->options;
     }
 
     public function render()
@@ -27,6 +29,13 @@ class TabpaneSettings extends Component
     public function setUserStatus($value)
     {
         auth()->user()->status = $value;
+        auth()->user()->push();
+    }
+
+    public function setTheme()
+    {
+        $this->accordionSelected = 'collapsethemes';
+        auth()->user()->options = $this->options;
         auth()->user()->push();
     }
 }

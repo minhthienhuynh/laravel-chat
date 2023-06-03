@@ -64,11 +64,13 @@
             <div id="settingprofile" class="accordion accordion-flush">
                 <div class="accordion-item">
                     <div class="accordion-header" id="headerpersonalinfo">
-                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#personalinfo" aria-expanded="true" aria-controls="personalinfo">
+                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#personalinfo" aria-expanded="true" aria-controls="personalinfo"
+                                :class="{ collapsed: '{{ $accordionSelected }}' != 'personalinfo' }">
                             <i class="bx bxs-user text-muted me-3"></i> Personal Info
                         </button>
                     </div>
-                    <div id="personalinfo" class="accordion-collapse collapse show" aria-labelledby="headerpersonalinfo" data-bs-parent="#settingprofile">
+                    <div id="personalinfo" class="accordion-collapse collapse" aria-labelledby="headerpersonalinfo" data-bs-parent="#settingprofile"
+                         :class="{ show: '{{ $accordionSelected }}' == 'personalinfo' }">
                         <div class="accordion-body">
                             <div class="float-end">
                                 <button type="button" class="btn btn-soft-primary btn-sm"><i class="bx bxs-pencil align-middle"></i></button>
@@ -95,119 +97,46 @@
 
                 <div class="accordion-item">
                     <div class="accordion-header" id="headerthemes">
-                        <button class="accordion-button font-size-14 fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethemes" aria-expanded="false" aria-controls="collapsethemes">
+                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethemes" aria-expanded="false" aria-controls="collapsethemes"
+                                :class="{ collapsed: '{{ $accordionSelected }}' != 'collapsethemes' }">
                             <i class="bx bxs-adjust-alt text-muted me-3"></i> Themes
                         </button>
                     </div>
-                    <div id="collapsethemes" class="accordion-collapse collapse" aria-labelledby="headerthemes" data-bs-parent="#settingprofile">
+                    <div id="collapsethemes" class="accordion-collapse collapse" aria-labelledby="headerthemes" data-bs-parent="#settingprofile"
+                         :class="{ show: '{{ $accordionSelected }}' == 'collapsethemes' }">
                         <div class="accordion-body">
                             <div>
                                 <h5 class="mb-3 font-size-11 text-muted text-uppercase">Choose Theme Color :</h5>
                                 <div class="d-flex align-items-center flex-wrap gap-2 theme-btn-list theme-color-list">
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="0" name="bgcolor-radio" id="bgcolor-radio1" >
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio1">
-                                            <span class="avatar-title bg-primary-custom rounded-circle theme-btn bgcolor-radio1"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="1" name="bgcolor-radio" id="bgcolor-radio2">
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio2">
-                                            <span class="avatar-title bg-info rounded-circle theme-btn bgcolor-radio2"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="2" name="bgcolor-radio" id="bgcolor-radio4">
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio4">
-                                            <span class="avatar-title bg-purple rounded-circle theme-btn bgcolor-radio4"></span>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="3" name="bgcolor-radio" id="bgcolor-radio5">
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio5">
-                                            <span class="avatar-title bg-pink rounded-circle theme-btn bgcolor-radio5"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="4" name="bgcolor-radio" id="bgcolor-radio6">
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio6">
-                                            <span class="avatar-title bg-danger rounded-circle theme-btn bgcolor-radio6"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="5" name="bgcolor-radio" id="bgcolor-radio7">
-                                        <label class="form-check-label avatar-xs" for="bgcolor-radio7">
-                                            <span class="avatar-title bg-secondary rounded-circle theme-btn bgcolor-radio7"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-color" type="radio" value="6" name="bgcolor-radio" id="bgcolor-radio8" checked>
-                                        <label class="form-check-label avatar-xs light-background" for="bgcolor-radio8">
-                                            <span class="avatar-title bg-light rounded-circle theme-btn bgcolor-radio8"></span>
-                                        </label>
-                                    </div>
+                                    @foreach(\App\Models\User::$themes['color-classes'] as $key => $colorClass)
+                                        <div class="form-check">
+                                            <input class="form-check-input theme-color" type="radio" value="{{ $key }}" name="bgcolor-radio" id="bgcolor-radio{{ $key }}"
+                                                   wire:model.defer="options.bg-color">
+                                            <label class="form-check-label avatar-xs" for="bgcolor-radio{{ $key }}"
+                                                   wire:click="setTheme"
+                                                   @click="bgColor = '{{ $colorClass['color'] }}'">
+                                                <span class="avatar-title {{ $colorClass['class'] }} rounded-circle theme-btn bgcolor-radio{{ $key }}"></span>
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
 
                             <div class="mt-4 pt-2">
                                 <h5 class="mb-3 font-size-11 text-muted text-uppercase">Choose Theme Image :</h5>
                                 <div class="d-flex align-items-center flex-wrap gap-2 theme-btn-list theme-btn-list-img">
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio1">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio1">
-                                            <span class="avatar-title bg-pattern-1 rounded-circle theme-btn bgimg-radio1"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio2">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio2">
-                                            <span class="avatar-title bg-pattern-2 rounded-circle theme-btn bgimg-radio2"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio3">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio3">
-                                            <span class="avatar-title bg-pattern-3 rounded-circle theme-btn bgimg-radio3"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio4">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio4">
-                                            <span class="avatar-title bg-pattern-4 rounded-circle theme-btn bgimg-radio4"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio5" checked>
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio5">
-                                            <span class="avatar-title bg-pattern-5 rounded-circle theme-btn bgimg-radio5"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio6">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio6">
-                                            <span class="avatar-title bg-pattern-6 rounded-circle theme-btn bgimg-radio6"></span>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio7">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio7">
-                                            <span class="avatar-title bg-pattern-7 rounded-circle theme-btn bgimg-radio7"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio8">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio8">
-                                            <span class="avatar-title bg-pattern-8 rounded-circle theme-btn bgimg-radio8"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input theme-img" type="radio" name="bgimg-radio" id="bgimg-radio9">
-                                        <label class="form-check-label avatar-xs" for="bgimg-radio9">
-                                            <span class="avatar-title bg-pattern-9 rounded-circle theme-btn bgimg-radio9"></span>
-                                        </label>
-                                    </div>
+                                    @foreach(\App\Models\User::$themes['images'] as $key => $image)
+                                        <div class="form-check">
+                                            <input class="form-check-input theme-img" type="radio" value="{{ $key }}" name="bgimg-radio" id="bgimg-radio{{ $key }}"
+                                                   wire:model.defer="options.bg-image">
+                                            <label class="form-check-label avatar-xs" for="bgimg-radio{{ $key }}"
+                                                   style="background-image: url('{{ Vite::asset("resources/$image") }}')"
+                                                   wire:click="setTheme"
+                                                   @click="bgImage = 'bg-pattern-{{ $key }}'">
+                                                <span class="avatar-title bg-pattern-{{ $key }} rounded-circle theme-btn bgimg-radio{{ $key }}"></span>
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -216,11 +145,13 @@
 
                 <div class="accordion-item">
                     <div class="accordion-header" id="privacy1">
-                        <button class="accordion-button font-size-14 fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy" aria-expanded="false" aria-controls="privacy">
+                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#privacy" aria-expanded="false" aria-controls="privacy"
+                                :class="{ collapsed: '{{ $accordionSelected }}' != 'privacy' }">
                             <i class="bx bxs-lock text-muted me-3"></i>Privacy
                         </button>
                     </div>
-                    <div id="privacy" class="accordion-collapse collapse" aria-labelledby="privacy1" data-bs-parent="#settingprofile">
+                    <div id="privacy" class="accordion-collapse collapse" aria-labelledby="privacy1" data-bs-parent="#settingprofile"
+                         :class="{ show: '{{ $accordionSelected }}' == 'privacy' }">
                         <div class="accordion-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item py-3 px-0 pt-0">
@@ -301,11 +232,13 @@
 
                 <div class="accordion-item">
                     <div class="accordion-header" id="headersecurity">
-                        <button class="accordion-button font-size-14 fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesecurity" aria-expanded="false" aria-controls="collapsesecurity">
+                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesecurity" aria-expanded="false" aria-controls="collapsesecurity"
+                                :class="{ collapsed: '{{ $accordionSelected }}' != 'collapsesecurity' }">
                             <i class="bx bxs-check-shield text-muted me-3"></i> Security
                         </button>
                     </div>
-                    <div id="collapsesecurity" class="accordion-collapse collapse" aria-labelledby="headersecurity" data-bs-parent="#settingprofile">
+                    <div id="collapsesecurity" class="accordion-collapse collapse" aria-labelledby="headersecurity" data-bs-parent="#settingprofile"
+                         :class="{ show: '{{ $accordionSelected }}' == 'collapsesecurity' }">
                         <div class="accordion-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item p-0">
@@ -332,11 +265,13 @@
 
                 <div class="accordion-item">
                     <div class="accordion-header" id="headerhelp">
-                        <button class="accordion-button font-size-14 fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsehelp" aria-expanded="false" aria-controls="collapsehelp">
+                        <button class="accordion-button font-size-14 fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapsehelp" aria-expanded="false" aria-controls="collapsehelp"
+                                :class="{ collapsed: '{{ $accordionSelected }}' != 'collapsehelp' }">
                             <i class="bx bxs-help-circle text-muted me-3"></i> Help
                         </button>
                     </div>
-                    <div id="collapsehelp" class="accordion-collapse collapse" aria-labelledby="headerhelp" data-bs-parent="#settingprofile">
+                    <div id="collapsehelp" class="accordion-collapse collapse" aria-labelledby="headerhelp" data-bs-parent="#settingprofile"
+                         :class="{ show: '{{ $accordionSelected }}' == 'collapsehelp' }">
                         <div class="accordion-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item py-3 px-0 pt-0">

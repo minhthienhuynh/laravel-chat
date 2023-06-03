@@ -33,7 +33,7 @@
                         Please Enter a Message
                     </div>
                     <input autocomplete="off" type="text" class="form-control form-control-lg chat-input" autofocus id="chat-input" placeholder="Type your message..."
-                           wire:model.defer="content">
+                           wire:model.defer="content" required>
                 </div>
             </div>
             <div class="col-auto">
