@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\LeftSidebar;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TabpaneContacts extends Component
 {
-    public $groups = [];
+    public Collection $users;
 
     public function mount()
     {
-        $users = User::whereKeyNot(auth()->id())
+        $this->users = User::whereKeyNot(auth()->id())
             ->orderBy('name')
             ->select('*')
             ->addSelect(DB::raw("UPPER(LEFT(name, 1)) as upper_left_name_1"))
             ->get();
-
-        $this->groups = $users->groupBy('upper_left_name_1')
-            ->toArray();
     }
 
     public function render()

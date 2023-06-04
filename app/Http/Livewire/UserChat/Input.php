@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\UserChat;
 
 use App\Events\MessageSent;
+use App\Models\Group;
 use App\Models\Message;
 use Livewire\Component;
 
-class UserChatInput extends Component
+class Input extends Component
 {
-    public $group = null;
-    public $content = '';
+    public Group $group;
+    public string $content = '';
 
-    public function mount($group)
+    protected array $rules = [
+        'content' => 'required|string',
+    ];
+
+    public function mount()
     {
         //
     }
@@ -24,13 +29,15 @@ class UserChatInput extends Component
     public function sendMessage()
     {
         try {
+            $this->validate();
+
             $message = Message::create([
                 'content'  => $this->content,
                 'group_id' => $this->group->id,
                 'user_id'  => auth()->id(),
             ]);
 
-            $this->emitTo('user-chat-conversation-list', 'messageSaved', $message);
+            $this->emitTo('user-chat.conversation-list', 'messageSent', $message->id);
             $this->reset('content');
 
             broadcast(new MessageSent($message))->toOthers();

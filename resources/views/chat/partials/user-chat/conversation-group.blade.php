@@ -77,7 +77,7 @@
 
     <!-- start chat conversation -->
     <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
-        @livewire('user-chat-conversation-list', compact('group'), key('group-'.$group['id']))
+        @livewire('user-chat.conversation-list', compact('group'), key("group-{$group->id}"))
     </div>
     <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show " id="copyClipBoardChannel" role="alert"
          :class="'d-none'">

@@ -29,20 +29,22 @@
 
         <div class="chat-message-list chat-group-list" data-simplebar >
             <div class="sort-contact">
-                @foreach($groups as $group => $users)
+                @foreach($users->groupBy('upper_left_name_1') as $group => $users)
                     <div class="mt-3">
                         <div class="contact-list-title">{{ $group }}</div>
-                        <ul id="contact-sort-A" class="list-unstyled contact-list">
+                        <ul id="contact-sort-{{ $group }}" class="list-unstyled contact-list">
                             @foreach($users as $user)
                                 <li>
                                     <div class="d-flex align-items-center">
-                                        <div wire:click="$emitTo('user-chat-conversation-list', 'userSelected', {{ json_encode($user) }})" class="flex-shrink-0 me-2">
+                                        <div class="flex-shrink-0 me-2"
+                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Group::TYPE_USER }})">
                                             <div class="avatar-xs">
-                                                <img src="{{ $user['profile_photo_url'] }}" class="img-fluid rounded-circle" alt="{{ $user['name'] }}">
+                                                <img src="{{ $user->profile_photo_url }}" class="img-fluid rounded-circle" alt="{{ $user->name }}">
                                             </div>
                                         </div>
-                                        <div wire:click="$emitTo('user-chat-conversation-list', 'userSelected', {{ json_encode($user) }})" class="flex-grow-1">
-                                            <h5 class="font-size-14 m-0">{{ $user['name'] }}</h5>
+                                        <div class="flex-grow-1"
+                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Group::TYPE_USER }})">
+                                            <h5 class="font-size-14 m-0">{{ $user->name }}</h5>
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="dropdown">

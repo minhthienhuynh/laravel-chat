@@ -6,8 +6,7 @@
             @if ($group)
                 <div x-init="Echo.private('chat.{{ $group->id }}')
                     .listen('MessageSent', (e) => {
-                        // @this.call('incomingMessage', e)
-                        window.livewire.emitTo('user-chat-conversation-list', 'messageSent', e)
+                        window.livewire.emitTo('user-chat.conversation-list', 'messageReceived', e)
                     })"></div>
 
                 <!-- conversation user -->
@@ -20,7 +19,7 @@
                 <div class="position-relative">
                     <div class="chat-input-section p-3 p-lg-4">
 
-                        @livewire('user-chat-input', compact('group'), key('input-group-'.$group['id']))
+                        @livewire('user-chat.input', compact('group'), key("input-group-{$group->id}"))
                     </div>
                     <div class="replyCard">
                         <div class="card mb-0">
@@ -48,11 +47,11 @@
         <!-- start User profile detail sidebar -->
         @if ($group)
             @if ($group->isUserType())
-                @livewire('user-chat-user-profile-details', compact('user'), key('user-'.$user['id']))
+                @livewire('user-chat.user-profile', compact('user'), key("user-profile-{$user->id}"))
             @endif
 
             @if ($group->isGroupType())
-                @livewire('user-chat-group-profile-details', compact('group'), key('group-'.$group['id']))
+                @livewire('user-chat.group-profile', compact('group'), key("group-profile-{$group->id}"))
             @endif
         @endif
         <!-- end User profile detail sidebar -->

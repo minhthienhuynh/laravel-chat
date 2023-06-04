@@ -167,7 +167,7 @@ class User extends Authenticatable
     /**
      * Get the number of unread messages.
      */
-    public function countUnread(): int
+    public function countUnread(User|Group $model): int
     {
         return 0;
     }

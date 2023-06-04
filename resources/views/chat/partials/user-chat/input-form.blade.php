@@ -33,7 +33,8 @@
                         Please Enter a Message
                     </div>
                     <input autocomplete="off" type="text" class="form-control form-control-lg chat-input" autofocus id="chat-input" placeholder="Type your message..."
-                           wire:model.defer="content" required>
+                           wire:model.defer="content"
+                           wire:loading.attr="disabled">
                 </div>
             </div>
             <div class="col-auto">
@@ -45,7 +46,8 @@
                         </button>
                     </div>
                     <div class="links-list-item">
-                        <button type="submit" class="btn btn-primary btn-lg chat-send waves-effect waves-light"  data-bs-toggle="collapse" data-bs-target=".chat-input-collapse1.show">
+                        <button type="submit" class="btn btn-primary btn-lg chat-send waves-effect waves-light"  data-bs-toggle="collapse" data-bs-target=".chat-input-collapse1.show"
+                                wire:loading.attr="disabled">
                             <i class="bx bxs-send align-middle" id="submit-btn"></i>
                         </button>
                     </div>

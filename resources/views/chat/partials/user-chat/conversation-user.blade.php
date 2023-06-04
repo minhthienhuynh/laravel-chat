@@ -10,11 +10,11 @@
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
-                                <img src="{{ $user['profile_photo_url'] }}" class="rounded-circle avatar-sm" alt="{{ $user['name'] }}">
+                                <img src="{{ $user->profile_photo_url }}" class="rounded-circle avatar-sm" alt="{{ $user->name }}">
                                 <span class="user-status"></span>
                             </div>
                             <div class="flex-grow-1 overflow-hidden">
-                                <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $user['name'] }}</a></h6>
+                                <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $user->name }}</a></h6>
                                 <p class="text-truncate text-muted mb-0"><small>Online</small></p>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
     <!-- start chat conversation -->
 
     <div class="chat-conversation p-3 p-lg-4 overflow-auto" id="chat-conversation" data-simplebar>
-        @livewire('user-chat-conversation-list', compact('group'), key('group-'.$group['id']))
+        @livewire('user-chat.conversation-list', compact('group'), key("group-{$group->id}"))
     </div>
 
     <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show " id="copyClipBoard" role="alert"

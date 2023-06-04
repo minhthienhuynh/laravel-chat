@@ -4,7 +4,7 @@
 
         <div class="p-3 border-bottom">
             <div class="user-profile-img">
-                <img src="{{ $user->profile_photo_url }}" class="profile-img rounded" alt="{{ $user->name }}">
+                <img src="{{ $group->profile_photo_url }}" class="profile-img rounded" alt="{{ $group->name }}">
                 <div class="overlay-content rounded">
                     <div class="user-chat-nav p-2">
                         <div class="d-flex w-100">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="mt-auto p-3">
-                        <h5 class="user-name mb-1 text-truncate">{{ $user->name }}</h5>
+                        <h5 class="user-name mb-1 text-truncate">{{ $group->name }}</h5>
                         <p class="font-size-14 text-truncate mb-0"><i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i> Online</p>
                     </div>
                 </div>
@@ -124,17 +124,12 @@
                             <button type="button" class="btn btn-sm btn-soft-primary">Edit</button>
                         </div>
                     </div>
-                    <h5 class="font-size-14 text-truncate">{{ $user->name }}</h5>
+                    <h5 class="font-size-14 text-truncate">{{ $group->name }}</h5>
                 </div>
 
                 <div class="mt-4">
-                    <p class="text-muted font-size-14 mb-1">Email</p>
-                    <h5 class="font-size-14">{{ $user->email }}</h5>
-                </div>
-
-                <div class="mt-4">
-                    <p class="text-muted font-size-14 mb-1">Location</p>
-                    <h5 class="font-size-14 mb-0">California, USA</h5>
+                    <p class="text-muted font-size-14 mb-1">Description</p>
+                    <h5 class="font-size-14">{!! nl2br($group->description) !!}</h5>
                 </div>
             </div>
             <hr class="my-4">

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\UserChat;
 
+use App\Models\User;
 use Livewire\Component;
 
-class UserChatUserProfileDetails extends Component
+class UserProfile extends Component
 {
-    public $user;
+    public User $user;
 
-    public function mount($user)
+    public function mount()
     {
         //
     }

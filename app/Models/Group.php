@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laravel\Jetstream\HasProfilePhoto;
 use Ramsey\Collection\Collection;
 
 /**
@@ -25,6 +26,7 @@ use Ramsey\Collection\Collection;
 class Group extends Model
 {
     use HasFactory;
+    use HasProfilePhoto;
     use SoftDeletes;
 
     /**
@@ -53,6 +55,15 @@ class Group extends Model
      */
     protected $casts = [
         'options' => 'array',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'profile_photo_url',
     ];
 
     /**
