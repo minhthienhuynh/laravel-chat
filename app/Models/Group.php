@@ -75,6 +75,14 @@ class Group extends Model
     }
 
     /**
+     * The other users that belong to the group.
+     */
+    public function other_users(): BelongsToMany
+    {
+        return $this->users()->whereKeyNot(auth()->id());
+    }
+
+    /**
      * Get the messages for the group.
      */
     public function messages(): HasMany

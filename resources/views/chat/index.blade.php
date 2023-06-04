@@ -55,7 +55,7 @@
 
                 <!-- Start chats tab-pane -->
                 <div class="tab-pane show active" id="pills-chat" role="tabpanel" aria-labelledby="pills-chat-tab">
-                    @livewire('left-sidebar.tabpane-chats')
+                    @include('chat.partials.leftsidebar.tabpane-chats')
                 </div>
                 <!-- End chats tab-pane -->
 
@@ -97,6 +97,7 @@
         </div>
         <!-- End User chat -->
 
+        @stack('modals')
         @include('chat.partials.modals')
         <!-- <video id="video" autoplay="true">
 

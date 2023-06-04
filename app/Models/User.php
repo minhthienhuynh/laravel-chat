@@ -55,6 +55,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    public static array $defaultOptions = [
+        'bg-color' => 1,
+        'bg-image' => 1,
+        'group-favorites' => [],
+    ];
+
+    /**
      * Themes
      *
      * @var array
@@ -141,10 +152,7 @@ class User extends Authenticatable
     protected function options(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->getArrayAttributeByKey('options') ?: [
-                'bg-color' => 1,
-                'bg-image' => 1,
-            ],
+            get: fn () => array_merge(self::$defaultOptions, $this->getArrayAttributeByKey('options')),
         );
     }
 
@@ -167,7 +175,7 @@ class User extends Authenticatable
     /**
      * Get the number of unread messages.
      */
-    public function countUnread(User|Group $model): int
+    public function countUnread(Group $group): int
     {
         return 0;
     }
