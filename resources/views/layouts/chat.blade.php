@@ -7,7 +7,7 @@
 
         @include('layouts.partials.head-css')
     </head>
-    <body>
+    <body @if(auth()->user()->options['dark-mode']) data-layout-mode="dark" @endif>
         {{ $slot }}
 
         @include('layouts.partials.vendor-scripts')

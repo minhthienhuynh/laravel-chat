@@ -12,7 +12,7 @@
                 <li id="contact-id-{{ $user->id }}" data-name="favorite"
                     :class="{ 'active': contactSelected == 'user-{{ $user->id }}' }">
                     <a href="javascript: void(0);" class="@if($countUnread) unread-msg-user @endif"
-                       wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ $group::TYPE_USER }})"
+                       wire:click="$emit('contactSelected', {{ $group->id }})"
                        @click="contactSelected = 'user-{{ $user->id }}'; showUserChat = true">
                         <div class="d-flex align-items-center">
                             <div class="chat-user-img online align-self-center me-2 ms-0">

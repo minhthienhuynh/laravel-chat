@@ -60,6 +60,7 @@ class User extends Authenticatable
      * @var array
      */
     public static array $defaultOptions = [
+        'dark-mode' => false,
         'bg-color' => 1,
         'bg-image' => 1,
         'group-favorites' => [],

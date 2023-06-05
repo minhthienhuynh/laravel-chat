@@ -7,27 +7,38 @@ use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class ConversationList extends Component
+class Conversation extends Component
 {
-    public Group $group;
+    public ?Group $group;
     public Collection $messages;
 
     protected $listeners = [
-        'messageSent' => 'refreshMessage',
-        'messageReceived' => 'refreshMessage',
+        'contactSelected' => 'renderMessages',
+        'messageSent' => 'refreshMessages',
     ];
 
     public function mount()
     {
-        $this->messages = $this->getMessages();
+        //
     }
 
     public function render()
     {
-        return view('chat.partials.user-chat.conversation-list');
+        return view('chat.partials.user-chat.conversation');
     }
 
-    public function refreshMessage(Message $message)
+    public function renderMessages(Group $group)
+    {
+        $this->group = $group;
+        $this->messages = $this->getMessages();
+    }
+
+    public function refreshMessages(Message $message)
+    {
+        $this->messages->push($message);
+    }
+
+    public function messageReceived(Message $message)
     {
         $this->messages->push($message);
     }

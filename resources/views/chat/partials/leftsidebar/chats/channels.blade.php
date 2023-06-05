@@ -23,7 +23,7 @@
                 <li id="contact-id-{{ $group->id }}" data-name="channel"
                     :class="{ 'active': contactSelected == 'group-{{ $group->id }}' }">
                     <a href="javascript: void(0);" class="@if($countUnread) unread-msg-user @endif"
-                       wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $group->id }}, {{ $group::TYPE_GROUP }})"
+                       wire:click="$emit('contactSelected', {{ $group->id }})"
                        @click="contactSelected = 'group-{{ $group->id }}'; showUserChat = true">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 avatar-xs me-2">

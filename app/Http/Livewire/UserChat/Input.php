@@ -9,8 +9,12 @@ use Livewire\Component;
 
 class Input extends Component
 {
-    public Group $group;
+    public ?Group $group;
     public string $content = '';
+
+    protected $listeners = [
+        'contactSelected' => 'renderInput',
+    ];
 
     protected array $rules = [
         'content' => 'required|string',
@@ -26,6 +30,17 @@ class Input extends Component
         return view('chat.partials.user-chat.input-form');
     }
 
+    public function renderInput(Group $group)
+    {
+        $this->group = $group;
+
+        if ($group->type == Group::TYPE_USER) {
+            $this->user = $group->other_users->first();
+        } else {
+            $this->user = null;
+        }
+    }
+
     public function sendMessage()
     {
         try {
@@ -37,7 +52,7 @@ class Input extends Component
                 'user_id'  => auth()->id(),
             ]);
 
-            $this->emitTo('user-chat.conversation-list', 'messageSent', $message->id);
+            $this->emitTo('user-chat.conversation', 'messageSent', $message->id);
             $this->reset('content');
 
             broadcast(new MessageSent($message))->toOthers();

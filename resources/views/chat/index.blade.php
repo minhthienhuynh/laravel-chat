@@ -34,13 +34,13 @@
     <div class="layout-wrapper d-lg-flex"
          x-data="{
             showUserChat: false,
-            bgColor: '{{ \App\Models\User::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
+            bgColor: '{{ auth()->user()::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
             bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}'
          }"
          :style="bgColor != '' && { '--bs-primary-rgb': bgColor }">
 
         <!-- Start left sidebar-menu -->
-        @include('chat.partials.sidebar-menu')
+        @livewire('sidebar-menu')
         <!-- end left sidebar-menu -->
 
         <!-- start chat-leftsidebar -->
@@ -93,7 +93,17 @@
             <div class="user-chat-overlay"
                  :style="bgColor != '' && { background: `rgb(${bgColor})` }"></div>
 
-            @livewire('user-chat.content')
+            <div class="chat-content d-lg-flex"
+                 x-data="{ showProfileSidebar: false }">
+                <!-- start chat conversation section -->
+                @include('chat.partials.user-chat.conversation-section')
+                <!-- end chat conversation section -->
+
+                <!-- start User profile detail sidebar -->
+                @livewire('user-chat.profile')
+                <!-- end User profile detail sidebar -->
+            </div>
+            <!-- end user chat content -->
         </div>
         <!-- End User chat -->
 
