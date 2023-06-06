@@ -9,22 +9,36 @@ use Livewire\Component;
 
 class DirectMessages extends Component
 {
-    public Collection $groups;
+    public Collection|array $groups;
+
+    protected $listeners = [
+        'favoriteUpdated' => 'refreshGroups',
+    ];
 
     public function mount()
     {
-        $this->groups = Group::query()
-            ->whereHas('users', function (Builder $query) {
-                $query->where('id', auth()->id());
-            })
-            ->where('type', Group::TYPE_USER)
-            ->whereIn('id', auth()->user()->options['group-favorites'], 'and', true)
-            ->with('other_users')
-            ->get();
+        $this->groups = $this->getGroups();
     }
 
     public function render()
     {
         return view('chat.partials.leftsidebar.chats.direct-messages');
+    }
+
+    public function refreshGroups()
+    {
+        $this->groups = $this->getGroups();
+    }
+
+    protected function getGroups(): Collection|array
+    {
+        return Group::query()
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', auth()->id());
+            })
+            ->whereIn('id', auth()->user()->options['group-favorites'], 'and', true)
+            ->where('type', Group::TYPE_USER)
+            ->with('other_users')
+            ->get();
     }
 }

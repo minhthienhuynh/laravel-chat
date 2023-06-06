@@ -9,22 +9,36 @@ use Livewire\Component;
 
 class Favourites extends Component
 {
-    public Collection $groups;
+    public Collection|array $groups;
+
+    protected $listeners = [
+        'favoriteUpdated' => 'refreshGroups',
+    ];
 
     public function mount()
     {
-        $this->groups = Group::query()
-            ->whereHas('users', function (Builder $query) {
-                $query->where('id', auth()->id());
-            })
-            ->where('type', Group::TYPE_USER)
-            ->whereIn('id', auth()->user()->options['group-favorites'])
-            ->with('other_users')
-            ->get();
+        $this->groups = $this->getGroups();
     }
 
     public function render()
     {
         return view('chat.partials.leftsidebar.chats.favourites');
+    }
+
+    public function refreshGroups()
+    {
+        $this->groups = $this->getGroups();
+    }
+
+    protected function getGroups(): Collection|array
+    {
+        return Group::query()
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', auth()->id());
+            })
+            ->whereIn('id', auth()->user()->options['group-favorites'])
+            ->orderBy('type')
+            ->with('other_users')
+            ->get();
     }
 }

@@ -57,7 +57,9 @@
             </div>
             <div class="col-sm col-4">
                 <div class="mb-4">
-                    <button type="button" class="btn avatar-sm p-0 favourite-btn">
+                    @php($activeClass = in_array($group->id, auth()->user()->options['group-favorites']) ? 'active' : '')
+                    <button type="button" class="btn avatar-sm p-0 favourite-btn {{ $activeClass }}"
+                            wire:click="setFavourite({{ $group->id }})">
                         <span class="avatar-title rounded bg-light text-body">
                             <i class="bx bx-heart"></i>
                         </span>

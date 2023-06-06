@@ -9,18 +9,16 @@ use Livewire\Component;
 
 class Channels extends Component
 {
-    public Collection $groups;
+    public Collection|array $groups;
 
-    protected $listeners = ['groupStored' => 'refreshGroups'];
+    protected $listeners = [
+        'groupStored' => 'appendGroup',
+        'favoriteUpdated' => 'refreshGroups',
+    ];
 
     public function mount()
     {
-        $this->groups = Group::query()
-            ->whereHas('users', function (Builder $query) {
-                $query->where('id', auth()->id());
-            })
-            ->where('type', Group::TYPE_GROUP)
-            ->get();
+        $this->groups = $this->getGroups();
     }
 
     public function render()
@@ -28,8 +26,24 @@ class Channels extends Component
         return view('chat.partials.leftsidebar.chats.channels');
     }
 
-    public function refreshGroups(Group $group)
+    public function appendGroup(Group $group)
     {
         $this->groups->push($group);
+    }
+
+    public function refreshGroups()
+    {
+        $this->groups = $this->getGroups();
+    }
+
+    protected function getGroups(): Collection|array
+    {
+        return Group::query()
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', auth()->id());
+            })
+            ->whereIn('id', auth()->user()->options['group-favorites'], 'and', true)
+            ->where('type', Group::TYPE_GROUP)
+            ->get();
     }
 }

@@ -18,31 +18,7 @@
     <div class="chat-message-list">
 
         <ul class="list-unstyled chat-list chat-user-list mb-3" id="channelList">
-            @foreach($groups as $group)
-                @php($countUnread = auth()->user()->countUnread($group))
-                <li id="contact-id-{{ $group->id }}" data-name="channel"
-                    :class="{ 'active': contactSelected == 'group-{{ $group->id }}' }">
-                    <a href="javascript: void(0);" class="@if($countUnread) unread-msg-user @endif"
-                       wire:click="$emit('contactSelected', {{ $group->id }})"
-                       @click="contactSelected = 'group-{{ $group->id }}'; showUserChat = true">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0 avatar-xs me-2">
-                                <span class="avatar-title rounded-circle bg-soft-light text-dark">#</span>
-                            </div>
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-truncate mb-0">{{ $group->name }}</p>
-                            </div>
-                            @if($countUnread)
-                                <div>
-                                    <div class="flex-shrink-0 ms-2">
-                                        <span class="badge badge-soft-dark rounded p-1">{{ $countUnread }}</span>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                </li>
-            @endforeach
+            @include('chat.partials.leftsidebar.chats.chat-list', ['dataName' => 'channel'])
         </ul>
     </div>
 </div>

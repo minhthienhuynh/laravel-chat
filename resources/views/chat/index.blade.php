@@ -33,6 +33,7 @@
 <x-chat-layout>
     <div class="layout-wrapper d-lg-flex"
          x-data="{
+            contactSelected: 0,
             showUserChat: false,
             bgColor: '{{ auth()->user()::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
             bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}'

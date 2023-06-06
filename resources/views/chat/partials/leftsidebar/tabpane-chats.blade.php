@@ -25,8 +25,7 @@
 
     </div> <!-- .p-4 -->
 
-    <div class="chat-room-list" data-simplebar
-         x-data="{ contactSelected: '' }">
+    <div class="chat-room-list" data-simplebar>
         <!-- Start chat-message-list -->
         @livewire('left-sidebar.chats.favourites')
 

@@ -57,7 +57,9 @@
             </div>
             <div class="col-sm col-4">
                 <div class="mb-4">
-                    <button type="button" class="btn avatar-sm p-0 favourite-btn">
+                    @php($activeClass = in_array($group->id, auth()->user()->options['group-favorites']) ? 'active' : '')
+                    <button type="button" class="btn avatar-sm p-0 favourite-btn {{ $activeClass }}"
+                            wire:click="setFavourite({{ $group->id }})">
                         <span class="avatar-title rounded bg-light text-body">
                             <i class="bx bx-heart"></i>
                         </span>
@@ -139,34 +141,24 @@
         </div>
 
         <ul class="list-unstyled chat-list mx-n4">
-            <li>
-                <a href="javascript: void(0);">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 avatar-xs me-2">
-                            <span class="avatar-title rounded-circle bg-soft-light text-dark">
-                                #
-                            </span>
+            @foreach($commonGroups as $group)
+                <li>
+                    <a href="javascript: void(0);"
+                       @click="contactSelected = {{ $group->id }}"
+                       wire:click="$emit('contactSelected', {{ $group->id }})">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 avatar-xs me-2">
+                                <span class="avatar-title rounded-circle bg-soft-light text-dark">
+                                    #
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-truncate mb-0">{{ $group->name }}</p>
+                            </div>
                         </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-truncate mb-0">Landing Design</p>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="javascript: void(0);">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 avatar-xs me-2">
-                            <span class="avatar-title rounded-circle bg-soft-light text-dark">
-                                #
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-truncate mb-0">Design Phase 2</p>
-                        </div>
-                    </div>
-                </a>
-            </li>
+                    </a>
+                </li>
+            @endforeach
         </ul>
     </div>
 
