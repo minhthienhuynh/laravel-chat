@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Jetstream\HasProfilePhoto;
-use Ramsey\Collection\Collection;
 
 /**
  * @property int $id
@@ -20,7 +20,8 @@ use Ramsey\Collection\Collection;
  * @property array $options
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property User $user
+ * @property Collection $users
+ * @property Collection $other_users
  * @property Collection $messages
  */
 class Group extends Model

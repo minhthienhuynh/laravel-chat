@@ -10,10 +10,12 @@ use Livewire\Component;
 class Input extends Component
 {
     public ?Group $group;
+    public ?array $options = [];
     public string $content = '';
 
     protected $listeners = [
         'contactSelected' => 'renderInput',
+        'messageReplying' => 'replyMessage',
     ];
 
     protected array $rules = [
@@ -39,6 +41,18 @@ class Input extends Component
         } else {
             $this->user = null;
         }
+
+        $this->reset('content', 'options');
+    }
+
+    public function replyMessage(Message $message)
+    {
+        $this->options['reply'] = $message->toArray();
+    }
+
+    public function resetReplyMessage()
+    {
+        $this->reset('options');
     }
 
     public function sendMessage()
@@ -47,13 +61,14 @@ class Input extends Component
             $this->validate();
 
             $message = Message::create([
-                'content'  => $this->content,
+                'content' => $this->content,
                 'group_id' => $this->group->id,
-                'user_id'  => auth()->id(),
+                'user_id' => auth()->id(),
+                'options' => $this->options,
             ]);
 
             $this->emitTo('user-chat.conversation', 'messageSent', $message->id);
-            $this->reset('content');
+            $this->reset('content', 'options');
 
             broadcast(new MessageSent($message))->toOthers();
         } catch (\Exception $exception) {

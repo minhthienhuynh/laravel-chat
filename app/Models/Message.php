@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,8 +12,10 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $content
+ * @property array $options
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 class Message extends Model
 {
@@ -28,6 +31,7 @@ class Message extends Model
         'content',
         'group_id',
         'user_id',
+        'options',
     ];
 
     /**
@@ -37,6 +41,7 @@ class Message extends Model
      */
     protected $casts = [
         'content' => 'encrypted',
+        'options' => 'array',
     ];
 
     /**
@@ -45,6 +50,16 @@ class Message extends Model
      * @var array
      */
     protected $with = ['user'];
+
+    /**
+     * Interact with the message's content.
+     */
+    protected function contents(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->convertContent(),
+        );
+    }
 
     /**
      * Get the group that owns the message.
@@ -60,5 +75,16 @@ class Message extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function convertContent()
+    {
+        $content = preg_replace('!(http|ftp|scp)(s)?:\/\/[\S\w]+!', "<a href=\"\\0\">\\0</a>", $this->content);
+
+        if ($this->deleted_at) {
+            $content = "<span class='text-muted fst-italic'>You removed a message</span>";
+        }
+
+        return $content;
     }
 }

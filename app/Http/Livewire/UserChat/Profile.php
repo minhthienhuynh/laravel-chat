@@ -12,7 +12,7 @@ class Profile extends Component
 {
     public ?Group $group;
     public ?User $user;
-    public Collection $commonGroups;
+    public Collection|array $commonGroups;
 
     protected $listeners = [
         'contactSelected' => 'renderProfile',
@@ -34,16 +34,7 @@ class Profile extends Component
 
         if ($group->type == Group::TYPE_USER) {
             $this->user = $group->other_users->first();
-
-            $this->commonGroups = Group::query()
-                ->whereHas('users', function (Builder $query) {
-                    $query->where('id', auth()->id());
-                })
-                ->whereHas('users', function (Builder $query) {
-                    $query->where('id', $this->user->id);
-                })
-                ->where('type', Group::TYPE_GROUP)
-                ->get();
+            $this->commonGroups = $this->getCommonGroups();
         } else {
             $this->user = null;
         }
@@ -64,5 +55,18 @@ class Profile extends Component
         auth()->user()->push();
 
         $this->emit('favoriteUpdated');
+    }
+
+    protected function getCommonGroups(): Collection|array
+    {
+        return Group::query()
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', auth()->id());
+            })
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', $this->user->id);
+            })
+            ->where('type', Group::TYPE_GROUP)
+            ->get();
     }
 }

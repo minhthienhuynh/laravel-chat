@@ -43,10 +43,22 @@ class Conversation extends Component
         $this->messages->push($message);
     }
 
+    public function deleteMessage(Message $message)
+    {
+        $message->delete();
+
+        $this->messages->map(function (Message $item) use ($message) {
+            if ($item->id == $message->id) {
+                $item->deleted_at = $message->deleted_at;
+            }
+        });
+    }
+
     protected function getMessages()
     {
         return $this->group->messages()
             ->latest()
+            ->withTrashed()
             ->simplePaginate(10)
             ->getCollection()
             ->reverse();
