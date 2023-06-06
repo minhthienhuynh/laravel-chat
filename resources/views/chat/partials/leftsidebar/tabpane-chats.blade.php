@@ -38,3 +38,7 @@
     @livewire('left-sidebar.chats.add-group-modal')
 </div>
 <!-- Start chats content -->
+
+@push('modals')
+    @livewire('left-sidebar.chats.add-contact-modal')
+@endpush

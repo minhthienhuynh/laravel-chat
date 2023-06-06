@@ -13,6 +13,7 @@ class DirectMessages extends Component
 
     protected $listeners = [
         'favoriteUpdated' => 'refreshGroups',
+        'contactUserStored' => 'refreshGroups',
     ];
 
     public function mount()
