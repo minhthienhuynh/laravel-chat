@@ -34,6 +34,18 @@
                                                 </button>
                                             </div>
                                         </div>
+                                    @elseif(! $message->deleted_at && isset($message->options['forward']))
+                                        <div class="replymessage-block mb-0 d-flex align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h5 class="conversation-name">{{ $message->options['forward']['user']['name'] }}</h5>
+                                                <p class="mb-0">{!! $message->options['forward']['content'] !!}</p>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <button type="button" class="btn btn-sm btn-link mt-n2 me-n3 font-size-18">
+                                                    <i class="ri-arrow-go-back-line"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     @endif
                                     <p class="mb-0 ctext-content text-start">{!! $message->contents !!}</p>
                                 </div>
@@ -45,7 +57,8 @@
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item d-flex align-items-center justify-content-between reply-message" href="#" id="reply-message-0" data-bs-toggle="collapse" data-bs-target=".replyCollapse"
                                                wire:click="$emitTo('user-chat.input', 'messageReplying', {{ $message->id }})">Reply <i class="bx bx-share ms-2 text-muted"></i></a>
-                                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-bs-toggle="modal" data-bs-target=".forwardModal">Forward <i class="bx bx-share-alt ms-2 text-muted"></i></a>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-bs-toggle="modal" data-bs-target=".forwardModal"
+                                               wire:click="$emitTo('user-chat.forward-modal', 'messageForwarding', {{ $message->id }})">Forward <i class="bx bx-share-alt ms-2 text-muted"></i></a>
                                             <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-0">Copy <i class="bx bx-copy text-muted ms-2"></i></a>
                                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
                                             @if ($message->user_id != auth()->id())
@@ -70,3 +83,7 @@
         </ul>
     @endisset
 </div>
+
+@push('modals')
+    @livewire('user-chat.forward-modal')
+@endpush
