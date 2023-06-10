@@ -18,6 +18,17 @@ Laravel Chat is a web chat application based on Laravel framework. Laravel Chat 
 cp .env.example .env
 ```
 
+###### Setup .env
+
+```dotenv
+DB_CONNECTION=pgsql
+DB_HOST=pgsql
+DB_PORT=5432
+DB_DATABASE=laravel
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
 ```shell
 docker-compose up -d --build
 ```
