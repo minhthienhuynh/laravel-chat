@@ -36,12 +36,6 @@ class Input extends Component
     {
         $this->group = $group;
 
-        if ($group->type == Group::TYPE_USER) {
-            $this->user = $group->other_users->first();
-        } else {
-            $this->user = null;
-        }
-
         $this->reset('content', 'options');
         $this->emit('focusOnChatInput', true);
     }
@@ -49,6 +43,7 @@ class Input extends Component
     public function replyMessage(Message $message)
     {
         $this->options['reply'] = $message->toArray();
+        $this->emit('focusOnChatInput', true);
     }
 
     public function resetReplyMessage()

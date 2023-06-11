@@ -6,15 +6,15 @@
                 <form id="chatinput-form" enctype="multipart/form-data"
                       wire:submit.prevent="sendMessage"
                       x-init="
-                      new FgEmojiPicker({
-                          trigger: ['.emoji-btn'],
-                          removeOnSelection: false,
-                          closeButton: true,
-                          position: ['top', 'right'],
-                          preFetch: true,
-                          dir: 'assets/js/dir/json',
-                          insertInto: document.querySelector('.chat-input'),
-                      });">
+                          new FgEmojiPicker({
+                              trigger: ['.emoji-btn'],
+                              removeOnSelection: false,
+                              closeButton: true,
+                              position: ['top', 'right'],
+                              preFetch: true,
+                              dir: 'assets/js/dir/json',
+                              insertInto: document.querySelector('.chat-input'),
+                          });">
                     <div class="row g-0 align-items-center">
                         <div class="file_Upload"></div>
                         <div class="col-auto">

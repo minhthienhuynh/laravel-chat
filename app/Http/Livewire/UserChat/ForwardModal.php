@@ -66,7 +66,7 @@ class ForwardModal extends Component
                 'options' => ['forward' => $this->message->toArray()],
             ]);
 
-            broadcast(new MessageSent($message))->toOthers();
+            broadcast(new MessageSent($message));
         } catch (\Exception $exception) {
             logger($exception->getMessage());
         }

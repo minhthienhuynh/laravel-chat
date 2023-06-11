@@ -3,10 +3,12 @@
     <div class="modal fade forwardModal" tabindex="-1" aria-hidden="true"
          wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-header-colored shadow-lg border-top-0">
+            <div class="modal-content modal-header-colored shadow-lg border-top-0"
+                 x-data="{ selectedGroups: [] }">
                 <div class="modal-header">
                     <h5 class="modal-title text-white font-size-16">Share this Message</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+                            @click="selectedGroups = []"
                             wire:click="resetModal"></button>
                 </div>
                 <div class="modal-body p-4">
@@ -50,6 +52,12 @@
                                                 </div>
                                                 <div class="flex-shrink-0">
                                                     <button type="button" class="btn btn-sm btn-primary"
+                                                            x-data="{ btnName: 'Send' }"
+                                                            :class="{ 'disabled': selectedGroups.includes({{ $group->id }}) }"
+                                                            @click="
+                                                                selectedGroups.push({{ $group->id }});
+                                                                btnName = selectedGroups.includes({{ $group->id }}) ? 'Sent' : 'Send'"
+                                                            x-text="btnName"
                                                             wire:click="send({{ $group->id }})">Send</button>
                                                 </div>
                                             </div>
