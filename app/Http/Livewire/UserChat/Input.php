@@ -43,6 +43,7 @@ class Input extends Component
         }
 
         $this->reset('content', 'options');
+        $this->emit('focusOnChatInput', true);
     }
 
     public function replyMessage(Message $message)
@@ -68,6 +69,7 @@ class Input extends Component
             ]);
 
             $this->emitTo('user-chat.conversation', 'messageSent', $message->id);
+            $this->emit('focusOnChatInput', true);
             $this->reset('content', 'options');
 
             broadcast(new MessageSent($message))->toOthers();

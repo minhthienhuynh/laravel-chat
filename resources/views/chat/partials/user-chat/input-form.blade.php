@@ -36,7 +36,7 @@
                                 <div class="chat-input-feedback">
                                     Please Enter a Message
                                 </div>
-                                <input autocomplete="off" type="text" class="form-control form-control-lg chat-input" autofocus id="chat-input" placeholder="Type your message..."
+                                <input autocomplete="off" type="text" class="form-control form-control-lg chat-input" id="chat-input" placeholder="Type your message..."
                                        wire:model.defer="content"
                                        wire:loading.attr="disabled">
                             </div>
@@ -177,3 +177,11 @@
         </div>
     @endisset
 </div>
+
+@push('scripts')
+    <script>
+        window.livewire.on('focusOnChatInput', function() {
+            document.getElementById('chat-input').focus();
+        });
+    </script>
+@endpush
