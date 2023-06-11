@@ -39,6 +39,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastWith(): array
     {
-       return $this->message->only('id');
+        return $this->message->only('id');
     }
 }

@@ -82,7 +82,8 @@ class Message extends Model
         $content = preg_replace('!(http|ftp|scp)(s)?:\/\/[\S\w]+!', "<a href=\"\\0\">\\0</a>", $this->content);
 
         if ($this->deleted_at) {
-            $content = "<span class='text-muted fst-italic'>You removed a message</span>";
+            $name = $this->user_id == auth()->id() ? 'You' : $this->user->name;
+            $content = "<span class='text-muted fst-italic'>{$name} removed a message</span>";
         }
 
         return $content;

@@ -8,7 +8,7 @@
 
                 Echo.private('chat.{{ $group->id }}')
                     .listen('MessageSent', (e) => {
-                        @this.call('refreshMessages', e);
+                        @this.call('messageReceived', e.id);
                     })">
             @foreach($messages as $message)
                 <li class="chat-list @if ($message->user_id == auth()->id()) right @else left @endif" id="{{ $message->id }}"

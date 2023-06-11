@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\UserChat;
 
+use App\Events\MessageSent;
 use App\Models\Group;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,20 +39,20 @@ class Conversation extends Component
         $this->messages->push($message);
     }
 
-    public function messageReceived(Message $message)
+    public function messageReceived($messageId)
     {
-        $this->messages->push($message);
+        $message = Message::withTrashed()->find($messageId);
+
+        $this->messages = $this->messages->merge(new Collection([$message]));
     }
 
     public function deleteMessage(Message $message)
     {
         $message->delete();
 
-        $this->messages->map(function (Message $item) use ($message) {
-            if ($item->id == $message->id) {
-                $item->deleted_at = $message->deleted_at;
-            }
-        });
+        $this->messages = $this->messages->merge(new Collection([$message]));
+
+        broadcast(new MessageSent($message))->toOthers();
     }
 
     protected function getMessages()
