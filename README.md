@@ -58,12 +58,6 @@ PUSHER_SCHEME=http
 PUSHER_APP_CLUSTER=mt1
 ```
 
-###### Start the Laravel WebSocket server
-
-```shell
-php artisan websockets:serve
-```
-
 ##### GOTO [Laravel Chat](http://localhost)
 
 ## License
