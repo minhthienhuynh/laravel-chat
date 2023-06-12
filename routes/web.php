@@ -24,7 +24,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', function () {
         return view('chat.index');
-    });
+    })->name('chat');
 
     Route::get('/dashboard', function () {
         return view('dashboard');

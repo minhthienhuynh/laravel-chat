@@ -79,13 +79,11 @@ class Message extends Model
 
     public function convertContent()
     {
-        $content = preg_replace('!(http|ftp|scp)(s)?:\/\/[\S\w]+!', "<a href=\"\\0\">\\0</a>", $this->content);
-
         if ($this->deleted_at) {
             $name = $this->user_id == auth()->id() ? 'You' : $this->user->name;
-            $content = "<span class='text-muted fst-italic'>{$name} removed a message</span>";
+            return "<span class='text-muted fst-italic'>{$name} removed a message</span>";
         }
 
-        return $content;
+        return preg_replace('!(http|ftp|scp)(s)?:\/\/[\S\w]+!', "<a href=\"\\0\" target='_blank'>\\0</a>", $this->content);
     }
 }
