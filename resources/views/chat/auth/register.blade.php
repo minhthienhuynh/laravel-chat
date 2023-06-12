@@ -1,4 +1,4 @@
-@section('title', 'Log in')
+@section('title', 'Register')
 
 @push('scripts')
     <!-- theme-style init -->
@@ -33,50 +33,66 @@
                                     <div class="py-md-5 py-4">
 
                                         <div class="text-center mb-5">
-                                            <h3>Welcome Back!</h3>
-                                            <p class="text-muted">Sign in to continue to Doot.</p>
+                                            <h3>Register Account</h3>
+                                            <p class="text-muted">Get your free Doot account now.</p>
                                         </div>
-                                        <form method="POST" action="{{ route('login') }}">
+                                        <form method="POST" action="{{ route('register') }}">
                                             @csrf
 
                                             <div class="mb-3">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="email" placeholder="Enter email"
-                                                       name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
+                                                <label for="name" class="form-label">{{ __('Name') }}</label>
+                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" required
+                                                       name="name" value="{{ old('name') }}" autofocus autocomplete="name">
+                                                @error('name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">{{ __('Email') }}</label>
+                                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter username" required
+                                                       name="email" value="{{ old('email') }}" autocomplete="username">
+                                                @error('email')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
 
                                             <div class="mb-3">
-                                                @if (Route::has('password.request'))
-                                                    <div class="float-end">
-                                                        <a href="{{ route('password.request') }}" class="text-muted">Forgot password?</a>
+                                                <label for="password" class="form-label">{{ __('Password') }}</label>
+                                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter password" required
+                                                       name="password" autocomplete="new-password">
+                                                @error('password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
                                                     </div>
-                                                @endif
-                                                <label for="password" class="form-label">Password</label>
-                                                <div class="position-relative auth-pass-inputgroup mb-3"
-                                                     x-data="{ show: false }">
-                                                    <input type="password" class="form-control pe-5" placeholder="Enter Password" id="password"
-                                                           name="password" required autocomplete="current-password"
-                                                           :type="show ? 'text' : 'password'">
-                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"
-                                                            @click="show = ! show"><i class="ri-eye-fill align-middle"></i></button>
-                                                </div>
+                                                @enderror
                                             </div>
 
-                                            <div class="form-check form-check-info font-size-16">
-                                                <input class="form-check-input" type="checkbox" id="remember_me"
-                                                       name="remember">
-                                                <label class="form-check-label font-size-14" for="remember_me">
-                                                    Remember me
-                                                </label>
+                                            <div class="mb-3">
+                                                <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+                                                <input type="password" class="form-control" id="password_confirmation" placeholder="Enter confirm password" required
+                                                       name="password_confirmation" autocomplete="new-password">
+                                                @error('password_confirmation')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
 
-                                            <div class="text-center mt-4">
-                                                <button class="btn btn-primary w-100" type="submit">{{ __('Log In') }}</button>
+                                            <div class="mb-4">
+                                                <p class="mb-0">By registering you agree to the Doot <a href="#" class="text-primary">Terms of Use</a></p>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>
                                             </div>
                                             {{--
                                             <div class="mt-4 text-center">
                                                 <div class="signin-other-title">
-                                                    <h5 class="font-size-14 mb-4 title">Sign in with</h5>
+                                                    <h5 class="font-size-14 mb-4 title">Sign up using</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6">
@@ -95,7 +111,7 @@
                                         </form><!-- end form -->
 
                                         <div class="mt-5 text-center text-muted">
-                                            <p>Don't have an account? <a href="{{ route('register') }}" class="fw-medium text-decoration-underline"> Register</a></p>
+                                            <p>Already have an account? <a href="{{ route('login') }}" class="fw-medium text-decoration-underline">Login</a></p>
                                         </div>
                                     </div>
                                 </div><!-- end col -->
