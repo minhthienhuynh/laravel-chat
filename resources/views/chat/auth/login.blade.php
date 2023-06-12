@@ -9,6 +9,8 @@
 @endpush
 
 <x-chat-layout>
+    @include('chat.auth.status-toast')
+
     <div class="auth-bg">
         <div class="container-fluid p-0">
             <div class="row g-0">
