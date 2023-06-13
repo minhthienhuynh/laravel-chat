@@ -25,7 +25,7 @@
                                     @if(! $message->deleted_at && isset($message->options['reply']))
                                         <div class="replymessage-block mb-0 d-flex align-items-start">
                                             <div class="flex-grow-1">
-                                                <h5 class="conversation-name">{{ $message->options['reply']['user']['name'] }}</h5>
+                                                <h5 class="conversation-name">{{ $message->options['reply']['user']['name'] }}, {{ Helper::convertMessageSentDatetimeForReply($message->options['reply']['created_at']) }}</h5>
                                                 <p class="mb-0">{!! $message->options['reply']['content'] !!}</p>
                                             </div>
                                             <div class="flex-shrink-0">
@@ -73,7 +73,7 @@
                                 @endempty
                             </div>
                             <div class="conversation-name">
-                                <small class="text-muted time">{{ $message->created_at->setTimezone('Asia/Ho_Chi_Minh')->toDayDateTimeString() }}</small>
+                                <small class="text-muted time">{{ $message->readable_created_at }}</small>
                                 <span class="text-success check-message-icon"><i class="bx bx-check-double"></i></span>
                             </div>
                         </div>
