@@ -6,7 +6,7 @@
                 <div class="d-flex w-100">
                     <div class="flex-grow-1">
                         <button type="button" class="btn nav-btn text-white user-profile-show d-none d-lg-block"
-                                @click="showProfileSidebar  = ! showProfileSidebar">
+                                @click="showProfileSidebar = ! showProfileSidebar">
                             <i class="bx bx-x"></i>
                         </button>
                         <button type="button" class="btn nav-btn text-white user-profile-show d-block d-lg-none"

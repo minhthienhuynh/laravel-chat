@@ -97,7 +97,9 @@
             <div class="chat-content d-lg-flex"
                  x-data="{ showProfileSidebar: false }">
                 <!-- start chat conversation section -->
-                @include('chat.partials.user-chat.conversation-section')
+                <div class="w-100 overflow-hidden position-relative">
+                    @livewire('user-chat.conversation-section')
+                </div>
                 <!-- end chat conversation section -->
 
                 <!-- start User profile detail sidebar -->

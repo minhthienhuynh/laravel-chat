@@ -10,28 +10,21 @@ use Livewire\Component;
 
 class Conversation extends Component
 {
-    public ?Group $group;
+    public Group $group;
     public Collection $messages;
 
     protected $listeners = [
-        'contactSelected' => 'renderMessages',
         'messageSent' => 'refreshMessages',
     ];
 
     public function mount()
     {
-        //
+        $this->messages = $this->getMessages();
     }
 
     public function render()
     {
         return view('chat.partials.user-chat.conversation');
-    }
-
-    public function renderMessages(Group $group)
-    {
-        $this->group = $group;
-        $this->messages = $this->getMessages();
     }
 
     public function refreshMessages(Message $message)
@@ -60,7 +53,7 @@ class Conversation extends Component
         return $this->group->messages()
             ->latest()
             ->withTrashed()
-            ->simplePaginate(10)
+            ->simplePaginate(15)
             ->getCollection()
             ->reverse();
     }

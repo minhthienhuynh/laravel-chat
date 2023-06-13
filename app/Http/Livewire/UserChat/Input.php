@@ -9,12 +9,11 @@ use Livewire\Component;
 
 class Input extends Component
 {
-    public ?Group $group;
-    public ?array $options = [];
+    public Group $group;
+    public array $options = [];
     public string $content = '';
 
     protected $listeners = [
-        'contactSelected' => 'renderInput',
         'messageReplying' => 'replyMessage',
     ];
 
@@ -30,14 +29,6 @@ class Input extends Component
     public function render()
     {
         return view('chat.partials.user-chat.input-form');
-    }
-
-    public function renderInput(Group $group)
-    {
-        $this->group = $group;
-
-        $this->reset('content', 'options');
-        $this->emit('focusOnChatInput', true);
     }
 
     public function replyMessage(Message $message)
