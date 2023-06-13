@@ -49,6 +49,7 @@ class Input extends Component
     public function replyMessage(Message $message)
     {
         $this->options['reply'] = $message->toArray();
+        $this->emit('focusOnChatInput', true);
     }
 
     public function resetReplyMessage()

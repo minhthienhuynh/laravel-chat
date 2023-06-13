@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -58,6 +59,16 @@ class Message extends Model
     {
         return Attribute::make(
             get: fn () => $this->convertContent(),
+        );
+    }
+
+    /**
+     * Interact with the message's content.
+     */
+    protected function readableCreatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Helper::convertMessageSentDatetime($this->created_at),
         );
     }
 
