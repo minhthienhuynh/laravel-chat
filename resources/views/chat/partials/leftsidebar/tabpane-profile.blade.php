@@ -2,7 +2,7 @@
     <!-- Start profile content -->
     <div>
         <div class="user-profile-img">
-            <img src="{{ Vite::asset('resources/assets/images/small/img-4.jpg') }}" class="profile-img" style="height: 160px;" alt="">
+            <img src="{{ asset('assets/images/small/img-4.jpg') }}" class="profile-img" style="height: 160px;" alt="">
             <div class="overlay-content">
                 <div>
                     <div class="user-chat-nav p-2 ps-3">
@@ -74,6 +74,7 @@
                     </div>
                 </div>
             </div>
+            {{--
             <hr class="my-4">
 
             <div>
@@ -88,17 +89,17 @@
                 <div class="profile-media-img">
                     <div class="media-img-list">
                         <a href="#">
-                            <img src="{{ Vite::asset('resources/assets/images/small/img-1.jpg') }}" alt="media img" class="img-fluid">
+                            <img src="{{ asset('assets/images/small/img-1.jpg') }}" alt="media img" class="img-fluid">
                         </a>
                     </div>
                     <div class="media-img-list">
                         <a href="#">
-                            <img src="{{ Vite::asset('resources/assets/images/small/img-2.jpg') }}" alt="media img" class="img-fluid">
+                            <img src="{{ asset('assets/images/small/img-2.jpg') }}" alt="media img" class="img-fluid">
                         </a>
                     </div>
                     <div class="media-img-list">
                         <a href="#">
-                            <img src="{{ Vite::asset('resources/assets/images/small/img-4.jpg') }}" alt="media img" class="img-fluid">
+                            <img src="{{ asset('assets/images/small/img-4.jpg') }}" alt="media img" class="img-fluid">
                             <div class="bg-overlay">+ 15</div>
                         </a>
                     </div>
@@ -254,6 +255,7 @@
                     </div>
                 </div>
             </div>
+            --}}
 
         </div>
         <!-- end user-profile-desc -->

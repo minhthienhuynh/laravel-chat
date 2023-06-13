@@ -5,4 +5,4 @@
 <meta name="keywords" content="Doot chat template, chat, web chat template, chat status, chat template, communication, discussion, group chat, message, messenger template, status"/>
 <meta content="Themesbrand" name="author" />
 <!-- App favicon -->
-<link rel="shortcut icon" href="{{ Vite::asset('resources/assets/images/favicon.ico') }}" id="tabIcon">
+<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" id="tabIcon">

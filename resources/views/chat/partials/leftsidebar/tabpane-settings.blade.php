@@ -2,7 +2,7 @@
     <!-- Start Settings content -->
     <div>
         <div class="user-profile-img">
-            <img src="{{ Vite::asset('resources/assets/images/small/img-4.jpg') }}" class="profile-img profile-foreground-img" style="height: 160px;" alt="">
+            <img src="{{ asset('assets/images/small/img-4.jpg') }}" class="profile-img profile-foreground-img" style="height: 160px;" alt="">
             <div class="overlay-content">
                 <div>
                     <div class="user-chat-nav p-3">
@@ -130,7 +130,7 @@
                                             <input class="form-check-input theme-img" type="radio" value="{{ $key }}" name="bgimg-radio" id="bgimg-radio{{ $key }}"
                                                    wire:model.defer="options.bg-image">
                                             <label class="form-check-label avatar-xs" for="bgimg-radio{{ $key }}"
-                                                   style="background-image: url('{{ Vite::asset("resources/$image") }}')"
+                                                   style="background-image: url('{{ asset("$image") }}')"
                                                    wire:click="setTheme"
                                                    @click="bgImage = 'bg-pattern-{{ $key }}'">
                                                 <span class="avatar-title bg-pattern-{{ $key }} rounded-circle theme-btn bgimg-radio{{ $key }}"></span>

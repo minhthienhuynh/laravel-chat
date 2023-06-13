@@ -2,7 +2,7 @@
 
 @push('scripts')
     <!-- theme-style init -->
-    @vite('resources/assets/js/pages/theme-style.init.js')
+    <script src="{{ asset('assets/js/pages/theme-style.init.js') }}"></script>
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
@@ -13,15 +13,7 @@
         <div class="container-fluid p-0">
             <div class="row g-0">
                 <div class="col-xl-3 col-lg-4">
-                    <div class="p-4 pb-0 p-lg-5 pb-lg-0 auth-logo-section">
-                        <div class="text-white-50">
-                            <h3><a href="{{ route('chat') }}" class="text-white"><i class="bx bxs-message-alt-detail align-middle text-white h3 mb-1 me-2"></i> Doot</a></h3>
-                                <p class="font-size-16">Responsive Bootstrap 5 Chat App</p>
-                        </div>
-                        <div class="mt-auto">
-                            <img src="{{ Vite::asset('resources/assets/images/auth-img.png') }}" alt="" class="auth-img">
-                        </div>
-                    </div>
+                    @include('chat.auth.logo-section')
                 </div>
                 <!-- end col -->
                 <div class="col-xl-9 col-lg-8">

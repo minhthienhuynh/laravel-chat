@@ -39,7 +39,7 @@
             <div class="modal-body p-0">
                 <div class="text-center p-4 pb-0">
                     <div class="avatar-xl mx-auto mb-4">
-                        <img src="{{ Vite::asset('resources/assets/images/users/avatar-2.jpg') }}" alt="" class="img-thumbnail rounded-circle">
+                        <img src="{{ asset('assets/images/users/avatar-2.jpg') }}" alt="" class="img-thumbnail rounded-circle">
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center mt-4">
@@ -94,7 +94,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg border-0">
             <div class="modal-body p-0">
-                <img src="{{ Vite::asset('resources/assets/images/users/avatar-2.jpg') }}" alt="" class="videocallModal-bg">
+                <img src="{{ asset('assets/images/users/avatar-2.jpg') }}" alt="" class="videocallModal-bg">
                 <div class="position-absolute start-0 end-0 bottom-0">
                     <div class="text-center">
                         <div class="d-flex justify-content-center align-items-center text-center">

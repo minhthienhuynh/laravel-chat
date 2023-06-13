@@ -2,10 +2,10 @@
 
 @push('styles')
     <!-- glightbox css -->
-    @vite('resources/assets/libs/glightbox/glightbox.css')
+    <link rel="stylesheet" href="{{ asset('assets/libs/glightbox/css/glightbox.min.css') }}">
 
     <!-- swiper css -->
-    @vite('resources/assets/libs/swiper/swiper-bundle.css')
+    <link rel="stylesheet" href="{{ asset('assets/libs/swiper/swiper-bundle.min.css') }}">
 
     <!-- Styles -->
     @livewireStyles
@@ -13,16 +13,16 @@
 
 @push('scripts')
     <!-- glightbox js -->
-    @vite('resources/assets/libs/glightbox/glightbox.js')
+    <script src="{{ asset('assets/libs/glightbox/js/glightbox.min.js') }}"></script>
 
     <!-- Swiper JS -->
-    @vite('resources/assets/libs/swiper/swiper-bundle.js')
+    <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
 
     <!-- fg-emoji-picker JS -->
     <script src="{{ asset('assets/libs/fg-emoji-picker/fgEmojiPicker.js') }}"></script>
 
     <!-- page init -->
-    @vite('resources/assets/js/pages/index.init.js')
+    <script src="{{ asset('assets/js/pages/index.init.js') }}"></script>
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
