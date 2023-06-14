@@ -33,11 +33,28 @@
 <x-chat-layout>
     <div class="layout-wrapper d-lg-flex"
          x-data="{
+            onlineUsers: [],
             contactSelected: 0,
             showUserChat: false,
             bgColor: '{{ auth()->user()::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
             bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}'
          }"
+         x-init="
+             document.addEventListener('DOMContentLoaded', function () {
+                Echo.join('user.online')
+                    .here((users) => {
+                        onlineUsers = users;
+                    })
+                    .joining((user) => {
+                        onlineUsers.push(user);
+                    })
+                    .leaving((user) => {
+                        onlineUsers = onlineUsers.filter(item => item !== user);
+                    })
+                    .error((error) => {
+                        console.error(error);
+                    });
+            });"
          :style="bgColor != '' && { '--bs-primary-rgb': bgColor }">
 
         <!-- Start left sidebar-menu -->

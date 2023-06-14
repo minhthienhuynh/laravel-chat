@@ -7,13 +7,16 @@
             </div>
             <div class="flex-grow-1 overflow-hidden">
                 <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
+                    <div class="flex-shrink-0 chat-user-img user-own-img align-self-center me-3 ms-0"
+                         :class="{ 'online': onlineUsers.includes({{ $user->id }}) }">
                         <img src="{{ $user->profile_photo_url }}" class="rounded-circle avatar-sm" alt="{{ $user->name }}">
                         <span class="user-status"></span>
                     </div>
                     <div class="flex-grow-1 overflow-hidden">
                         <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $user->name }}</a></h6>
-                        <p class="text-truncate text-muted mb-0"><small>Online</small></p>
+                        <p class="text-truncate text-muted mb-0">
+                            <small x-text="onlineUsers.includes({{ $user->id }}) ? 'Online' : 'Offline'"></small>
+                        </p>
                     </div>
                 </div>
             </div>

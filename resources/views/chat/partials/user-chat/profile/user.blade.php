@@ -33,7 +33,11 @@
             </div>
             <div class="mt-auto p-3">
                 <h5 class="user-name mb-1 text-truncate">{{ $user->name }}</h5>
-                <p class="font-size-14 text-truncate mb-0"><i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i> Online</p>
+                <p class="font-size-14 text-truncate mb-0">
+                    <i class="bx bxs-circle font-size-10 me-1 ms-0"
+                       :class="{ 'text-success': onlineUsers.includes({{ $user->id }}) }"></i>
+                    <span x-text="onlineUsers.includes({{ $user->id }}) ? 'Online' : 'Offline'"></span>
+                </p>
             </div>
         </div>
     </div>

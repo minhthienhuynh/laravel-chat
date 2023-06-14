@@ -8,10 +8,12 @@
             <div class="d-flex align-items-center">
                 @if($group->type == $group::TYPE_USER)
                     @php($user = $group->other_users->first())
-                    <div class="chat-user-img online align-self-center me-2 ms-0">
+                    <div class="chat-user-img align-self-center me-2 ms-0"
+                         :class="{ 'online': onlineUsers.includes({{ $user->id }}) }">
                         <img src="{{ $user->profile_photo_url }}" class="rounded-circle avatar-xs" alt="{{ $user->name }}">
                         @if ($user->status != $user::STATUS_INVISIBLE)
-                            <span class="user-status {{ $user->getBGColor() }}"></span>
+                            <span class="user-status {{ $user->getBGColor() }}"
+                                  :class="{ 'd-none': ! onlineUsers.includes({{ $user->id }}) }"></span>
                         @endif
                     </div>
                     <div class="overflow-hidden">
