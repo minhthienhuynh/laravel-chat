@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ConversationSection extends Component
 {
-    public ?Group $group;
+    public ?Group $group = null;
 
     protected $listeners = [
         'contactSelected' => 'renderConversation',
@@ -25,7 +25,9 @@ class ConversationSection extends Component
 
     public function renderConversation(Group $group)
     {
+        $oldGroup = $this->group;
         $this->group = $group;
         $this->emit('focusOnChatInput');
+        $this->emit('chatSwitch', @$oldGroup->id, $group->id);
     }
 }

@@ -15,6 +15,7 @@ class Conversation extends Component
 
     protected $listeners = [
         'messageSent' => 'refreshMessages',
+        'messageReceived' => 'refreshMessages2',
     ];
 
     public function mount()
@@ -32,7 +33,7 @@ class Conversation extends Component
         $this->messages->push($message);
     }
 
-    public function messageReceived($messageId)
+    public function refreshMessages2($messageId)
     {
         $message = Message::withTrashed()->find($messageId);
 

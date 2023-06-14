@@ -47,7 +47,22 @@
             }
         }
 
-        Livewire.on('focusOnChatInput', function() {
+        Livewire.on('chatSwitch', (oldGroupId, newGroupId) => {
+            if (oldGroupId) {
+                Echo.leave(`chat.${oldGroupId}`);
+            }
+
+            Echo.private(`chat.${newGroupId}`)
+                .listen('MessageSent', (e) => {
+                    Livewire.emit('messageReceived', e.id);
+                });
+        });
+
+        Livewire.hook('message.processed', (message, component) => {
+            scrollToBottom('users-chat');
+        });
+
+        Livewire.on('focusOnChatInput', function () {
             document.getElementById('chat-input').focus();
         });
     </script>

@@ -1,15 +1,5 @@
 <div>
-    <ul class="list-unstyled chat-conversation-list"
-        x-init="
-            Livewire.hook('message.processed', (message, component) => {
-                scrollToBottom('users-chat');
-            });
-
-            Echo.private('chat.{{ $group->id }}')
-                .listen('MessageSent', (e) => {
-                    @this.call('messageReceived', e.id);
-                });">
-
+    <ul class="list-unstyled chat-conversation-list">
         @foreach($messages as $message)
             <li class="chat-list @if ($message->user_id == auth()->id()) right @else left @endif" id="{{ $message->id }}"
                 wire:key="{{ $loop->index }}">
