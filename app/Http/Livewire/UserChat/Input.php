@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Events\MessageSent;
-use App\Models\Group;
+use App\Events\NewMessage;
+use App\Models\Room;
 use App\Models\Message;
 use Livewire\Component;
 
 class Input extends Component
 {
-    public Group $group;
+    public Room $room;
     public array $options = [];
     public string $content = '';
 
@@ -47,9 +47,8 @@ class Input extends Component
         try {
             $this->validate();
 
-            $message = Message::create([
+            $message = $this->room->messages()->create([
                 'content' => $this->content,
-                'group_id' => $this->group->id,
                 'user_id' => auth()->id(),
                 'options' => $this->options,
             ]);
@@ -58,7 +57,7 @@ class Input extends Component
             $this->emit('focusOnChatInput', true);
             $this->reset('content', 'options');
 
-            broadcast(new MessageSent($message))->toOthers();
+            broadcast(new NewMessage($message))->toOthers();
         } catch (\Exception $exception) {
             logger($exception->getMessage());
         }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Models\Group;
+use App\Models\Room;
 use Livewire\Component;
 
 class ConversationSection extends Component
 {
-    public ?Group $group = null;
+    public ?Room $room;
 
     protected $listeners = [
         'contactSelected' => 'renderConversation',
@@ -23,11 +23,9 @@ class ConversationSection extends Component
         return view('chat.partials.user-chat.conversation-section');
     }
 
-    public function renderConversation(Group $group)
+    public function renderConversation(Room $room)
     {
-        $oldGroup = $this->group;
-        $this->group = $group;
+        $this->room = $room;
         $this->emit('focusOnChatInput');
-        $this->emit('chatSwitch', @$oldGroup->id, $group->id);
     }
 }

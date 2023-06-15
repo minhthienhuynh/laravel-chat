@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\LeftSidebar\Chats;
 
-use App\Models\Group;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,31 +25,26 @@ class AddContactModal extends Component
 
     public function selectUser(User $user)
     {
-        if ($this->hasGroup($user)) {
+        if ($this->hasRoom($user)) {
             return;
         }
 
-        $group = Group::create([
-            'type' => Group::TYPE_USER,
+        $room = Room::create([
+            'type' => Room::TYPE_USER,
         ]);
 
-        $group->users()->sync([auth()->id(), $user->id]);
+        $room->users()->sync([auth()->id(), $user->id]);
 
-        $this->emit('contactUserStored', $group->id);
+        $this->emit('userRoomStored', $room->id);
     }
 
     protected function getUnconnectedUsers()
     {
-        $groups = Group::query()
-            ->whereHas('users', function (Builder $query) {
-                $query->where('id', auth()->id());
-            })
-            ->where('type', Group::TYPE_USER)
-            ->get();
-
         return User::whereKeyNot(auth()->id())
-            ->whereDoesntHave('groups', function(Builder $query) use ($groups) {
-                $query->whereIn('id', $groups->pluck('id'));
+            ->whereDoesntHave('rooms', function(Builder $query) {
+                $query->whereIn('id', auth()->user()->rooms()
+                    ->where('type', Room::TYPE_USER)
+                    ->pluck('id'));
             })
             ->orderBy('name')
             ->select('*')
@@ -57,9 +52,9 @@ class AddContactModal extends Component
             ->get();
     }
 
-    protected function hasGroup(User $user)
+    protected function hasRoom(User $user): bool
     {
-        return Group::query()
+        return Room::query()
             ->has('users', '=', 2)
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
@@ -67,7 +62,7 @@ class AddContactModal extends Component
             ->whereHas('users', function (Builder $query) use ($user) {
                 $query->where('id', $user->id);
             })
-            ->where('type', Group::TYPE_USER)
+            ->where('type', Room::TYPE_USER)
             ->exists();
     }
 }

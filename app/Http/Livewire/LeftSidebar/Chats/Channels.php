@@ -2,23 +2,23 @@
 
 namespace App\Http\Livewire\LeftSidebar\Chats;
 
-use App\Models\Group;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class Channels extends Component
 {
-    public Collection|array $groups;
+    public Collection|array $rooms;
 
     protected $listeners = [
-        'groupStored' => 'appendGroup',
-        'favoriteUpdated' => 'refreshGroups',
+        'groupRoomStored' => 'refreshRooms',
+        'favoriteUpdated' => 'refreshRooms2',
     ];
 
     public function mount()
     {
-        $this->groups = $this->getGroups();
+        $this->rooms = $this->getRooms();
     }
 
     public function render()
@@ -26,24 +26,24 @@ class Channels extends Component
         return view('chat.partials.leftsidebar.chats.channels');
     }
 
-    public function appendGroup(Group $group)
+    public function refreshRooms(Room $room)
     {
-        $this->groups->push($group);
+        $this->rooms->push($room);
     }
 
-    public function refreshGroups()
+    public function refreshRooms2()
     {
-        $this->groups = $this->getGroups();
+        $this->rooms = $this->getRooms();
     }
 
-    protected function getGroups(): Collection|array
+    protected function getRooms(): Collection|array
     {
-        return Group::query()
+        return Room::query()
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
             })
-            ->whereIn('id', auth()->user()->options['group-favorites'], 'and', true)
-            ->where('type', Group::TYPE_GROUP)
+            ->whereIn('id', auth()->user()->options['room-favorites'], 'and', true)
+            ->where('type', Room::TYPE_GROUP)
             ->get();
     }
 }

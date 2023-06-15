@@ -2,15 +2,15 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Events\MessageSent;
-use App\Models\Group;
+use App\Events\NewMessage;
+use App\Models\Room;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class Conversation extends Component
 {
-    public Group $group;
+    public Room $room;
     public Collection $messages;
 
     protected $listeners = [
@@ -33,8 +33,12 @@ class Conversation extends Component
         $this->messages->push($message);
     }
 
-    public function refreshMessages2($messageId)
+    public function refreshMessages2($messageId, $roomId)
     {
+        if ($this->room->id != $roomId) {
+            return;
+        }
+
         $message = Message::withTrashed()->find($messageId);
 
         $this->messages = $this->messages->merge(new Collection([$message]));
@@ -46,12 +50,12 @@ class Conversation extends Component
 
         $this->messages = $this->messages->merge(new Collection([$message]));
 
-        broadcast(new MessageSent($message))->toOthers();
+        broadcast(new NewMessage($message))->toOthers();
     }
 
     protected function getMessages()
     {
-        return $this->group->messages()
+        return $this->room->messages()
             ->latest()
             ->withTrashed()
             ->simplePaginate(15)

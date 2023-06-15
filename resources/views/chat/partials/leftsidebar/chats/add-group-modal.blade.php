@@ -4,7 +4,7 @@
          data-bs-backdrop="static"
          wire:ignore.self
          x-init="
-             Livewire.on('groupStored', groupId => {
+             Livewire.on('groupRoomStored', groupId => {
                 addGroupModal.hide();
              })
          ">
@@ -42,10 +42,10 @@
                                     </div>
                                     <div class="card-body p-2">
                                         <div data-simplebar style="max-height: 150px;">
-                                            @foreach($users->groupBy('upper_left_name_1') as $group => $users)
+                                            @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                                                 <div>
                                                     <div class="contact-list-title">
-                                                        {{ $group }}
+                                                        {{ $key }}
                                                     </div>
 
                                                     <ul class="list-unstyled contact-list">

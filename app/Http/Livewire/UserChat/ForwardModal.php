@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Events\MessageSent;
-use App\Models\Group;
+use App\Events\NewMessage;
+use App\Models\Room;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class ForwardModal extends Component
 {
-    public Collection $groups;
+    public Collection $rooms;
     public ?Message $message = null;
     public string $content = '';
 
@@ -25,21 +25,21 @@ class ForwardModal extends Component
 
     public function mount()
     {
-        $this->groups = Group::whereKeyNot(auth()->id())
+        $this->rooms = Room::whereKeyNot(auth()->id())
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
             })
             ->with('other_users')
             ->get();
 
-        $this->groups->map(function (Group $group) {
-            if ($group->type == Group::TYPE_USER) {
-                $group->display_name = $group->other_users->first()->name;
+        $this->rooms->map(function (Room $room) {
+            if ($room->type == Room::TYPE_USER) {
+                $room->display_name = $room->other_users->first()->name;
             } else {
-                $group->display_name = $group->name;
+                $room->display_name = $room->name;
             }
 
-            $group->list_title = strtoupper($group->display_name)[0];
+            $room->list_title = strtoupper($room->display_name)[0];
         })
         ->sortBy('list_title');
     }
@@ -54,19 +54,18 @@ class ForwardModal extends Component
         $this->message = $message;
     }
 
-    public function send(Group $group)
+    public function send(Room $room)
     {
         try {
             $this->validate();
 
-            $message = Message::create([
+            $message = $room->messages()->create([
                 'content' => $this->content,
-                'group_id' => $group->id,
                 'user_id' => auth()->id(),
                 'options' => ['forward' => $this->message->toArray()],
             ]);
 
-            broadcast(new MessageSent($message));
+            broadcast(new NewMessage($message));
         } catch (\Exception $exception) {
             logger($exception->getMessage());
         }

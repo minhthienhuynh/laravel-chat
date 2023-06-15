@@ -8,11 +8,11 @@
             <div class="flex-grow-1 overflow-hidden">
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3">
-                        <img src="{{ $group->profile_photo_url }}" class="rounded-circle avatar-sm" alt="{{ $group->name }}">
+                        <img src="{{ $room->profile_photo_url }}" class="rounded-circle avatar-sm" alt="{{ $room->name }}">
                     </div>
                     <div class="flex-grow-1 overflow-hidden">
-                        <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $group->name }}</a></h6>
-                        <p class="text-truncate text-muted mb-0"><small>{{ $group->users()->count() }} Members</small></p>
+                        <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $room->name }}</a></h6>
+                        <p class="text-truncate text-muted mb-0"><small>{{ $room->users()->count() }} Members</small></p>
                     </div>
                 </div>
             </div>

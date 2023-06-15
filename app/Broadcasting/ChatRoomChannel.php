@@ -4,7 +4,7 @@ namespace App\Broadcasting;
 
 use App\Models\User;
 
-class UserChannel
+class ChatRoomChannel
 {
     /**
      * Create a new channel instance.
@@ -17,8 +17,12 @@ class UserChannel
     /**
      * Authenticate the user's access to the channel.
      */
-    public function join(User $user, $groupId): bool
+    public function join(User $user, $roomId): bool|array
     {
-        return in_array($groupId, $user->groups->pluck('id')->toArray());
+        if ($user->canJoinRoom($roomId)) {
+            return $user->only('id', 'name');
+        }
+
+        return false;
     }
 }

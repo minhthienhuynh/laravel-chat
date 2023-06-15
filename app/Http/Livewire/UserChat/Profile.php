@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Models\Group;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +10,9 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-    public ?Group $group;
+    public ?Room $room;
     public ?User $user;
-    public Collection|array $commonGroups;
+    public Collection|array $commonRooms;
 
     protected $listeners = [
         'contactSelected' => 'renderProfile',
@@ -28,13 +28,13 @@ class Profile extends Component
         return view('chat.partials.user-chat.profile-details');
     }
 
-    public function renderProfile(Group $group)
+    public function renderProfile(Room $room)
     {
-        $this->group = $group;
+        $this->room = $room;
 
-        if ($group->type == Group::TYPE_USER) {
-            $this->user = $group->other_users->first();
-            $this->commonGroups = $this->getCommonGroups();
+        if ($room->type == Room::TYPE_USER) {
+            $this->user = $room->other_users->first();
+            $this->commonRooms = $this->getCommonRooms();
         } else {
             $this->user = null;
         }
@@ -43,12 +43,12 @@ class Profile extends Component
     public function setFavourite($id)
     {
         $options = auth()->user()->options;
-        $key = array_search($id, $options['group-favorites']);
+        $key = array_search($id, $options['room-favorites']);
 
         if ($key === false) {
-            $options['group-favorites'][] = $id;
+            $options['room-favorites'][] = $id;
         } else {
-            unset($options['group-favorites'][$key]);
+            unset($options['room-favorites'][$key]);
         }
 
         auth()->user()->options = $options;
@@ -57,16 +57,16 @@ class Profile extends Component
         $this->emit('favoriteUpdated');
     }
 
-    protected function getCommonGroups(): Collection|array
+    protected function getCommonRooms(): Collection|array
     {
-        return Group::query()
+        return Room::query()
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
             })
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', $this->user->id);
             })
-            ->where('type', Group::TYPE_GROUP)
+            ->where('type', Room::TYPE_GROUP)
             ->get();
     }
 }

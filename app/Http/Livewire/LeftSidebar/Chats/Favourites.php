@@ -2,22 +2,22 @@
 
 namespace App\Http\Livewire\LeftSidebar\Chats;
 
-use App\Models\Group;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class Favourites extends Component
 {
-    public Collection|array $groups;
+    public Collection|array $rooms;
 
     protected $listeners = [
-        'favoriteUpdated' => 'refreshGroups',
+        'favoriteUpdated' => 'refreshRooms',
     ];
 
     public function mount()
     {
-        $this->groups = $this->getGroups();
+        $this->rooms = $this->getRooms();
     }
 
     public function render()
@@ -25,18 +25,18 @@ class Favourites extends Component
         return view('chat.partials.leftsidebar.chats.favourites');
     }
 
-    public function refreshGroups()
+    public function refreshRooms()
     {
-        $this->groups = $this->getGroups();
+        $this->rooms = $this->getRooms();
     }
 
-    protected function getGroups(): Collection|array
+    protected function getRooms(): Collection|array
     {
-        return Group::query()
+        return Room::query()
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
             })
-            ->whereIn('id', auth()->user()->options['group-favorites'])
+            ->whereIn('id', auth()->user()->options['room-favorites'])
             ->orderBy('type')
             ->with('other_users')
             ->get();

@@ -29,21 +29,21 @@
 
         <div class="chat-message-list chat-group-list" data-simplebar >
             <div class="sort-contact">
-                @foreach($users->groupBy('upper_left_name_1') as $group => $users)
+                @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                     <div class="mt-3">
-                        <div class="contact-list-title">{{ $group }}</div>
-                        <ul id="contact-sort-{{ $group }}" class="list-unstyled contact-list">
+                        <div class="contact-list-title">{{ $key }}</div>
+                        <ul id="contact-sort-{{ $key }}" class="list-unstyled contact-list">
                             @foreach($users as $user)
                                 <li>
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0 me-2"
-                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Group::TYPE_USER }})">
+                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Room::TYPE_USER }})">
                                             <div class="avatar-xs">
                                                 <img src="{{ $user->profile_photo_url }}" class="img-fluid rounded-circle" alt="{{ $user->name }}">
                                             </div>
                                         </div>
                                         <div class="flex-grow-1"
-                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Group::TYPE_USER }})">
+                                             wire:click="$emitTo('user-chat.content', 'contactSelected', {{ $user->id }}, {{ \App\Models\Room::TYPE_USER }})">
                                             <h5 class="font-size-14 m-0">{{ $user->name }}</h5>
                                         </div>
                                         <div class="flex-shrink-0">

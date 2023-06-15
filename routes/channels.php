@@ -1,6 +1,6 @@
 <?php
 
-use App\Broadcasting\UserChannel;
+use App\Broadcasting\ChatRoomChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -18,8 +18,4 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('user.online', function ($user) {
-    return $user->id;
-});
-
-Broadcast::channel('chat.{groupId}', UserChannel::class);
+Broadcast::channel('chat.{roomId}', ChatRoomChannel::class);

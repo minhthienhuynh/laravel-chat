@@ -2,8 +2,8 @@
     <!-- conversation -->
     <div id="users-chat" class="position-relative">
         <div class="p-3 p-lg-4 user-chat-topbar">
-            @isset($group)
-                @livewire('user-chat.topbar', compact('group'), key("topbar-{$group->id}"))
+            @isset($room)
+                @livewire('user-chat.topbar', compact('room'), key("topbar-{$room->id}"))
             @endisset
         </div>
         <!-- end chat user head -->
@@ -11,8 +11,8 @@
         <!-- start chat conversation -->
 
         <div class="chat-conversation p-3 p-lg-4 overflow-auto" id="chat-conversation">
-            @isset($group)
-                @livewire('user-chat.conversation', compact('group'), key("conversation-{$group->id}"))
+            @isset($room)
+                @livewire('user-chat.conversation', compact('room'), key("conversation-{$room->id}"))
             @endisset
         </div>
 
@@ -25,8 +25,8 @@
     </div>
 
     <!-- start chat input section -->
-    @isset($group)
-        @livewire('user-chat.input', compact('group'), key("input-{$group->id}"))
+    @isset($room)
+        @livewire('user-chat.input', compact('room'), key("input-{$room->id}"))
     @endisset
     <!-- end chat input section -->
 </div>
@@ -46,17 +46,6 @@
                 simpleBar.scrollTo({ top: offsetHeight, behavior: 'smooth' });
             }
         }
-
-        Livewire.on('chatSwitch', (oldGroupId, newGroupId) => {
-            if (oldGroupId) {
-                Echo.leave(`chat.${oldGroupId}`);
-            }
-
-            Echo.private(`chat.${newGroupId}`)
-                .listen('MessageSent', (e) => {
-                    Livewire.emit('messageReceived', e.id);
-                });
-        });
 
         Livewire.hook('message.processed', (message, component) => {
             scrollToBottom('users-chat');

@@ -24,7 +24,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property array $options
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property Collection $groups
+ * @property Collection $rooms
  */
 class User extends Authenticatable
 {
@@ -63,7 +63,7 @@ class User extends Authenticatable
         'dark-mode' => false,
         'bg-color' => 1,
         'bg-image' => 1,
-        'group-favorites' => [],
+        'room-favorites' => [],
     ];
 
     /**
@@ -158,11 +158,11 @@ class User extends Authenticatable
     }
 
     /**
-     * The groups that belong to the user.
+     * The rooms that belong to the user.
      */
-    public function groups(): BelongsToMany
+    public function rooms(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Room::class);
     }
 
     /**
@@ -176,7 +176,7 @@ class User extends Authenticatable
     /**
      * Get the number of unread messages.
      */
-    public function countUnread(Group $group): int
+    public function countUnread(Room $room): int
     {
         return 0;
     }
@@ -192,5 +192,16 @@ class User extends Authenticatable
             self::STATUS_DO_NOT_DISTURB => 'bg-danger',
             self::STATUS_INVISIBLE => 'bg-light',
         ][$this->status];
+    }
+
+    /**
+     * Authenticate the user's access to the room
+     *
+     * @param $roomId
+     * @return bool
+     */
+    public function canJoinRoom($roomId): bool
+    {
+        return $this->rooms()->whereKey($roomId)->exists();
     }
 }

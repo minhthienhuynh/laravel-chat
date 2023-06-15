@@ -24,7 +24,7 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @property Collection $other_users
  * @property Collection $messages
  */
-class Group extends Model
+class Room extends Model
 {
     use HasFactory;
     use HasProfilePhoto;

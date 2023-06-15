@@ -1,5 +1,5 @@
 <div>
-    @isset($group)
+    @isset($room)
         <div class="user-profile-sidebar"
              :class="{ 'd-block': showProfileSidebar }">
 

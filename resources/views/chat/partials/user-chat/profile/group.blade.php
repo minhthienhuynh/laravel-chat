@@ -1,6 +1,6 @@
 <div class="p-3 border-bottom">
     <div class="user-profile-img">
-        <img src="{{ $group->profile_photo_url }}" class="profile-img rounded" alt="{{ $group->name }}">
+        <img src="{{ $room->profile_photo_url }}" class="profile-img rounded" alt="{{ $room->name }}">
         <div class="overlay-content rounded">
             <div class="user-chat-nav p-2">
                 <div class="d-flex w-100">
@@ -32,8 +32,8 @@
                 </div>
             </div>
             <div class="mt-auto p-3">
-                <h5 class="user-name mb-1 text-truncate">{{ $group->name }}</h5>
-                <p class="font-size-14 text-truncate mb-0">{{ $group->users()->count() }} Members</p>
+                <h5 class="user-name mb-1 text-truncate">{{ $room->name }}</h5>
+                <p class="font-size-14 text-truncate mb-0">{{ $room->users()->count() }} Members</p>
             </div>
         </div>
     </div>
@@ -57,9 +57,9 @@
             </div>
             <div class="col-sm col-4">
                 <div class="mb-4">
-                    @php($activeClass = in_array($group->id, auth()->user()->options['group-favorites']) ? 'active' : '')
+                    @php($activeClass = in_array($room->id, auth()->user()->options['room-favorites']) ? 'active' : '')
                     <button type="button" class="btn avatar-sm p-0 favourite-btn {{ $activeClass }}"
-                            wire:click="setFavourite({{ $group->id }})">
+                            wire:click="setFavourite({{ $room->id }})">
                         <span class="avatar-title rounded bg-light text-body">
                             <i class="bx bx-heart"></i>
                         </span>
@@ -123,12 +123,12 @@
                     <button type="button" class="btn btn-sm btn-soft-primary">Edit</button>
                 </div>
             </div>
-            <h5 class="font-size-14 text-truncate">{{ $group->name }}</h5>
+            <h5 class="font-size-14 text-truncate">{{ $room->name }}</h5>
         </div>
 
         <div class="mt-4">
             <p class="text-muted font-size-14 mb-1">Description</p>
-            <h5 class="font-size-14">{!! nl2br($group->description) !!}</h5>
+            <h5 class="font-size-14">{!! nl2br($room->description) !!}</h5>
         </div>
     </div>
     <hr class="my-4">

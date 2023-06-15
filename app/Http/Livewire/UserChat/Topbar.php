@@ -2,19 +2,19 @@
 
 namespace App\Http\Livewire\UserChat;
 
-use App\Models\Group;
+use App\Models\Room;
 use App\Models\User;
 use Livewire\Component;
 
 class Topbar extends Component
 {
-    public Group $group;
+    public Room $room;
     public ?User $user;
 
     public function mount()
     {
-        if ($this->group->type == Group::TYPE_USER) {
-            $this->user = $this->group->other_users->first();
+        if ($this->room->type == Room::TYPE_USER) {
+            $this->user = $this->room->other_users->first();
         }
     }
 

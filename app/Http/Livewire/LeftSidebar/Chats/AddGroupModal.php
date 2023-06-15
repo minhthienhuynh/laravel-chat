@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\LeftSidebar\Chats;
 
-use App\Models\Group;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -39,17 +39,17 @@ class AddGroupModal extends Component
     {
         $this->validate();
 
-        $group = Group::create([
+        $room = Room::create([
             'name' => $this->name,
             'description' => $this->description,
-            'type' => Group::TYPE_GROUP,
+            'type' => Room::TYPE_GROUP,
         ]);
 
-        $group->users()->sync([auth()->id()] + $this->user_ids);
+        $room->users()->sync([auth()->id()] + $this->user_ids);
 
         $this->resetForm();
 
-        $this->emit('groupStored', $group->id);
+        $this->emit('groupRoomStored', $room->id);
     }
 
     public function resetForm()

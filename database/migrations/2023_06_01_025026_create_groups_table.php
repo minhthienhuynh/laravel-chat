@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Room;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->string('type')->default(\App\Models\Group::TYPE_USER);
+            $table->string('type')->default(Room::TYPE_USER);
             $table->boolean('muted')->default(false);
             $table->json('options')->nullable();
             $table->timestamps();

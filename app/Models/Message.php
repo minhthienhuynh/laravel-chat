@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $content
+ * @property int $room_id
  * @property array $options
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -73,11 +74,11 @@ class Message extends Model
     }
 
     /**
-     * Get the group that owns the message.
+     * Get the room that owns the message.
      */
-    public function group(): BelongsTo
+    public function room(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(Room::class);
     }
 
     /**

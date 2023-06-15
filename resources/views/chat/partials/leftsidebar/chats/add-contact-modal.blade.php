@@ -23,10 +23,10 @@
                     </div>
                     <div class="contact-modal-list mx-n4 px-1" data-simplebar style="max-height: 200px;"
                          wire:ignore>
-                        @foreach($users->groupBy('upper_left_name_1') as $group => $users)
+                        @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                             <div class="mt-3">
                                 <div class="contact-list-title">
-                                    {{ $group }}
+                                    {{ $key }}
                                 </div>
 
                                 <ul class="list-unstyled contact-list">
@@ -42,7 +42,7 @@
                                     @endforeach
                                 </ul>
                             </div>
-                            <!-- end contact list {{ $group }} -->
+                            <!-- end contact list {{ $key }} -->
                         @endforeach
                     </div>
                 </div>

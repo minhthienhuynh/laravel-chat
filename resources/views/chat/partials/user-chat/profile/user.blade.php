@@ -61,9 +61,9 @@
             </div>
             <div class="col-sm col-4">
                 <div class="mb-4">
-                    @php($activeClass = in_array($group->id, auth()->user()->options['group-favorites']) ? 'active' : '')
+                    @php($activeClass = in_array($room->id, auth()->user()->options['room-favorites']) ? 'active' : '')
                     <button type="button" class="btn avatar-sm p-0 favourite-btn {{ $activeClass }}"
-                            wire:click="setFavourite({{ $group->id }})">
+                            wire:click="setFavourite({{ $room->id }})">
                         <span class="avatar-title rounded bg-light text-body">
                             <i class="bx bx-heart"></i>
                         </span>
@@ -145,11 +145,11 @@
         </div>
 
         <ul class="list-unstyled chat-list mx-n4">
-            @foreach($commonGroups as $group)
+            @foreach($commonRooms as $room)
                 <li>
                     <a href="javascript: void(0);"
-                       @click="contactSelected = {{ $group->id }}"
-                       wire:click="$emit('contactSelected', {{ $group->id }})">
+                       @click="contactSelected = {{ $room->id }}"
+                       wire:click="$emit('contactSelected', {{ $room->id }})">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 avatar-xs me-2">
                                 <span class="avatar-title rounded-circle bg-soft-light text-dark">
@@ -157,7 +157,7 @@
                                 </span>
                             </div>
                             <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-truncate mb-0">{{ $group->name }}</p>
+                                <p class="text-truncate mb-0">{{ $room->name }}</p>
                             </div>
                         </div>
                     </a>

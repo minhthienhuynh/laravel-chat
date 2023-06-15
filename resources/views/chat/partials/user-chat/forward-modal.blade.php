@@ -4,11 +4,11 @@
          wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-header-colored shadow-lg border-top-0"
-                 x-data="{ selectedGroups: [] }">
+                 x-data="{ selectedRooms: [] }">
                 <div class="modal-header">
                     <h5 class="modal-title text-white font-size-16">Share this Message</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
-                            @click="selectedGroups = []"
+                            @click="selectedRooms = []"
                             wire:click="resetModal"></button>
                 </div>
                 <div class="modal-body p-4">
@@ -37,28 +37,28 @@
                     </div>
                     <div data-simplebar style="max-height: 150px;" class="mx-n4 px-1"
                          wire:ignore>
-                        @foreach($groups->groupBy('list_title') as $listTitle => $list)
+                        @foreach($rooms->groupBy('list_title') as $listTitle => $list)
                             <div>
                                 <div class="contact-list-title">
                                     {{ $listTitle }}
                                 </div>
 
                                 <ul class="list-unstyled contact-list @if($loop->last) mb-0 @endif">
-                                    @foreach($list as $group)
+                                    @foreach($list as $room)
                                         <li>
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-grow-1">
-                                                    <h5 class="font-size-14 m-0">{{ $group->display_name }}</h5>
+                                                    <h5 class="font-size-14 m-0">{{ $room->display_name }}</h5>
                                                 </div>
                                                 <div class="flex-shrink-0">
                                                     <button type="button" class="btn btn-sm btn-primary"
                                                             x-data="{ btnName: 'Send' }"
-                                                            :class="{ 'disabled': selectedGroups.includes({{ $group->id }}) }"
+                                                            :class="{ 'disabled': selectedRooms.includes({{ $room->id }}) }"
                                                             @click="
-                                                                selectedGroups.push({{ $group->id }});
-                                                                btnName = selectedGroups.includes({{ $group->id }}) ? 'Sent' : 'Send'"
+                                                                selectedRooms.push({{ $room->id }});
+                                                                btnName = selectedRooms.includes({{ $room->id }}) ? 'Sent' : 'Send'"
                                                             x-text="btnName"
-                                                            wire:click="send({{ $group->id }})">Send</button>
+                                                            wire:click="send({{ $room->id }})">Send</button>
                                                 </div>
                                             </div>
                                         </li>
