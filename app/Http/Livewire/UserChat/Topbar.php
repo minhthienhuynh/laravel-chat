@@ -13,7 +13,7 @@ class Topbar extends Component
 
     public function mount()
     {
-        if ($this->room->type == Room::TYPE_USER) {
+        if ($this->room->isUserType()) {
             $this->user = $this->room->other_users->first();
         }
     }

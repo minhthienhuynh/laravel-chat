@@ -33,7 +33,7 @@ class ForwardModal extends Component
             ->get();
 
         $this->rooms->map(function (Room $room) {
-            if ($room->type == Room::TYPE_USER) {
+            if ($room->isUserType()) {
                 $room->display_name = $room->other_users->first()->name;
             } else {
                 $room->display_name = $room->name;

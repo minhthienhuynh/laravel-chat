@@ -13,6 +13,8 @@ class Favourites extends Component
 
     protected $listeners = [
         'favoriteUpdated' => 'refreshRooms',
+        'messageReceived' => 'refreshRooms',
+        'needRerender' => 'refreshRooms',
     ];
 
     public function mount()

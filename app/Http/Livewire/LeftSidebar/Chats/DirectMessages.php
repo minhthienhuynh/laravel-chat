@@ -14,6 +14,8 @@ class DirectMessages extends Component
     protected $listeners = [
         'userRoomStored' => 'refreshRooms',
         'favoriteUpdated' => 'refreshRooms2',
+        'messageReceived' => 'refreshRooms2',
+        'needRerender' => 'refreshRooms2',
     ];
 
     public function mount()
@@ -43,7 +45,7 @@ class DirectMessages extends Component
                 $query->where('id', auth()->id());
             })
             ->whereIn('id', auth()->user()->options['room-favorites'], 'and', true)
-            ->where('type', Room::TYPE_USER)
+            ->ofType(Room::TYPE_USER)
             ->with('other_users')
             ->get();
     }

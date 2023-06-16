@@ -43,7 +43,7 @@ class AddContactModal extends Component
         return User::whereKeyNot(auth()->id())
             ->whereDoesntHave('rooms', function(Builder $query) {
                 $query->whereIn('id', auth()->user()->rooms()
-                    ->where('type', Room::TYPE_USER)
+                    ->ofType(Room::TYPE_USER)
                     ->pluck('id'));
             })
             ->orderBy('name')
@@ -62,7 +62,7 @@ class AddContactModal extends Component
             ->whereHas('users', function (Builder $query) use ($user) {
                 $query->where('id', $user->id);
             })
-            ->where('type', Room::TYPE_USER)
+            ->ofType(Room::TYPE_USER)
             ->exists();
     }
 }

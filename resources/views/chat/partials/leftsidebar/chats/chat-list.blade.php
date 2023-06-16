@@ -26,7 +26,7 @@
            wire:click="$emit('contactSelected', {{ $room->id }})"
            @click="contactSelected = {{ $room->id }}; showUserChat = true">
             <div class="d-flex align-items-center">
-                @if($room->type == $room::TYPE_USER)
+                @if ($room->isUserType())
                     @php($user = $room->other_users->first())
                     <div class="chat-user-img align-self-center me-2 ms-0"
                          :class="{ 'online': onlineUsers.includes({{ $user->id }}) }">

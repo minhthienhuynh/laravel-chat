@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\UserChat;
 
 use App\Events\NewMessage;
+use App\Http\Livewire\UserChat\Traits\LeftSidebarTrait;
 use App\Models\Room;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,6 +11,8 @@ use Livewire\Component;
 
 class Conversation extends Component
 {
+    use LeftSidebarTrait;
+
     public Room $room;
     public Collection $messages;
 
@@ -31,6 +34,8 @@ class Conversation extends Component
     public function refreshMessages(Message $message)
     {
         $this->messages->push($message);
+        $this->makeUnreadFrom($message);
+        $this->emit('scrollToBottom');
     }
 
     public function refreshMessages2($messageId, $roomId)
@@ -42,6 +47,15 @@ class Conversation extends Component
         $message = Message::withTrashed()->find($messageId);
 
         $this->messages = $this->messages->merge(new Collection([$message]));
+    }
+
+    public function makeUnreadFrom(Message $message)
+    {
+        $this->room->users()->updateExistingPivot(auth()->id(), [
+            'unread_from_message_id' => $message->id
+        ]);
+
+        $this->updateLeftSidebar($this->room);
     }
 
     public function deleteMessage(Message $message)

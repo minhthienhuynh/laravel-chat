@@ -14,6 +14,8 @@ class Channels extends Component
     protected $listeners = [
         'groupRoomStored' => 'refreshRooms',
         'favoriteUpdated' => 'refreshRooms2',
+        'messageReceived' => 'refreshRooms2',
+        'needRerender' => 'refreshRooms2',
     ];
 
     public function mount()
@@ -43,7 +45,7 @@ class Channels extends Component
                 $query->where('id', auth()->id());
             })
             ->whereIn('id', auth()->user()->options['room-favorites'], 'and', true)
-            ->where('type', Room::TYPE_GROUP)
+            ->ofType(Room::TYPE_GROUP)
             ->get();
     }
 }

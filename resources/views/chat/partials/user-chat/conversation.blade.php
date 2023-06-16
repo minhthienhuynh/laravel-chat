@@ -1,7 +1,11 @@
 <div>
-    <ul class="list-unstyled chat-conversation-list">
+    @php($unreadMessageId = auth()->user()->getUnreadMessageId($room))
+    <ul class="list-unstyled chat-conversation-list" data-unread_from_message_id="{{ $unreadMessageId }}">
         @foreach($messages as $message)
-            <li class="chat-list @if ($message->user_id == auth()->id()) right @else left @endif" id="{{ $message->id }}"
+            @if($message->user_id != auth()->id() && $message->id == $unreadMessageId)
+                <hr>
+            @endif
+            <li class="chat-list @if($message->user_id == auth()->id()) right @else left @endif" id="message-{{ $message->id }}"
                 wire:key="{{ $loop->index }}">
                 <div class="conversation-list">
                     @if ($message->user_id != auth()->id())
@@ -19,7 +23,8 @@
                                             <p class="mb-0">{!! $message->options['reply']['content'] !!}</p>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <button type="button" class="btn btn-sm btn-link mt-n2 me-n3 font-size-18">
+                                            <button type="button" class="btn btn-sm btn-link mt-n2 me-n3 font-size-18"
+                                                    @click="Livewire.emit('scrollToMessage', {{ $message->options['reply']['id'] }})">
                                                 <i class="ri-arrow-go-back-line"></i>
                                             </button>
                                         </div>
@@ -52,7 +57,8 @@
                                         <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-0">Copy <i class="bx bx-copy text-muted ms-2"></i></a>
                                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
                                         @if ($message->user_id != auth()->id())
-                                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Mark as Unread <i class="bx bx-message-error text-muted ms-2"></i></a>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="#"
+                                               wire:click="makeUnreadFrom({{ $message->id }})">Mark as Unread <i class="bx bx-message-error text-muted ms-2"></i></a>
                                         @endif
                                         @if ($message->user_id == auth()->id())
                                             <a class="dropdown-item d-flex align-items-center justify-content-between delete-item" href="#"

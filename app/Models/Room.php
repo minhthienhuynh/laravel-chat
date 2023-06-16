@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,7 +73,8 @@ class Room extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot('unread_from_message_id');
     }
 
     /**
@@ -91,6 +93,14 @@ class Room extends Model
         return $this->hasMany(Message::class);
     }
 
+    /**
+     * Scope a query to only include rooms of a given type.
+     */
+    public function scopeOfType(Builder $query, int $type): void
+    {
+        $query->where('type', $type);
+    }
+
     public function isUserType(): bool
     {
         return $this->type == self::TYPE_USER;
@@ -99,5 +109,10 @@ class Room extends Model
     public function isGroupType(): bool
     {
         return $this->type == self::TYPE_GROUP;
+    }
+
+    public function isFavourite(): bool
+    {
+        return in_array($this->id, auth()->user()->options['room-favorites']);
     }
 }

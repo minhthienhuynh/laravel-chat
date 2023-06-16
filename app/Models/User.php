@@ -162,7 +162,8 @@ class User extends Authenticatable
      */
     public function rooms(): BelongsToMany
     {
-        return $this->belongsToMany(Room::class);
+        return $this->belongsToMany(Room::class)
+            ->withPivot('unread_from_message_id');
     }
 
     /**
@@ -174,11 +175,28 @@ class User extends Authenticatable
     }
 
     /**
+     * Get unread message id for the user.
+     *
+     * @param Room $room
+     * @return mixed
+     */
+    public function getUnreadMessageId(Room $room): mixed
+    {
+        return $this->rooms()->whereKey($room->id)->first()
+            ->pivot->unread_from_message_id;
+    }
+
+    /**
      * Get the number of unread messages.
      */
     public function countUnread(Room $room): int
     {
-        return 0;
+        $unreadFromMessageId = $this->getUnreadMessageId($room) ?? 0;
+
+        return $room->messages()
+            ->where('id', '>=', $unreadFromMessageId)
+            ->where('user_id', '<>', auth()->id())
+            ->count();
     }
 
     /**

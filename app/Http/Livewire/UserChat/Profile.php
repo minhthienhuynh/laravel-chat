@@ -32,7 +32,7 @@ class Profile extends Component
     {
         $this->room = $room;
 
-        if ($room->type == Room::TYPE_USER) {
+        if ($room->isUserType()) {
             $this->user = $room->other_users->first();
             $this->commonRooms = $this->getCommonRooms();
         } else {
@@ -66,7 +66,7 @@ class Profile extends Component
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', $this->user->id);
             })
-            ->where('type', Room::TYPE_GROUP)
+            ->ofType(Room::TYPE_GROUP)
             ->get();
     }
 }

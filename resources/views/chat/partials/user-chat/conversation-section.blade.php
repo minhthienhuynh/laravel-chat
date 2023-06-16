@@ -47,12 +47,32 @@
             }
         }
 
-        Livewire.hook('message.processed', (message, component) => {
+        Livewire.on('scrollToBottom', () => {
             scrollToBottom('users-chat');
         });
 
         Livewire.on('focusOnChatInput', function () {
             document.getElementById('chat-input').focus();
+        });
+
+        Livewire.on('scrollToUnreadMessage', e => {
+            if (! e) {
+                e = $('#chat-conversation .chat-conversation-list').data('unread_from_message_id');
+            }
+
+            const element = $(`#message-${e}`)[0];
+
+            if (element) {
+                element.scrollIntoView();
+            }
+        });
+
+        Livewire.on('scrollToMessage', e => {
+            const element = $(`#message-${e}`)[0];
+
+            if (element) {
+                element.scrollIntoViewIfNeeded();
+            }
         });
     </script>
 @endpush

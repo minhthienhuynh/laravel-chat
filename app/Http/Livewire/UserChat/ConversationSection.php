@@ -27,5 +27,6 @@ class ConversationSection extends Component
     {
         $this->room = $room;
         $this->emit('focusOnChatInput');
+        $this->emit('scrollToUnreadMessage');
     }
 }
