@@ -172,7 +172,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="chat-bookmark-list mx-n4" data-simplebar style="max-height: 299px;">
+                <div class="chat-bookmark-list mx-n4 overflow-auto" style="max-height: 299px;">
                     <ul class="list-unstyled chat-list">
                         <li>
                             <div class="d-flex align-items-center">

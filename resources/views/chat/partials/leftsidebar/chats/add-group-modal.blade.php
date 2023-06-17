@@ -34,14 +34,13 @@
                                 </button>
                             </div>
 
-                            <div class="collapse" id="groupmembercollapse"
-                                 wire:ignore>
+                            <div class="collapse" id="groupmembercollapse">
                                 <div class="card border">
                                     <div class="card-header">
                                         <h5 class="font-size-15 mb-0">Contacts</h5>
                                     </div>
                                     <div class="card-body p-2">
-                                        <div data-simplebar style="max-height: 150px;">
+                                        <div class="overflow-auto" style="max-height: 150px;">
                                             @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                                                 <div>
                                                     <div class="contact-list-title">

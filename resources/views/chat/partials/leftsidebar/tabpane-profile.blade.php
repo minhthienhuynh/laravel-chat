@@ -41,7 +41,7 @@
         <!-- End profile user -->
 
         <!-- Start user-profile-desc -->
-        <div class="p-4 profile-desc" data-simplebar>
+        <div class="p-4 profile-desc overflow-auto">
             <div class="text-muted">
                 <p class="mb-4">If several languages coalesce, the grammar of the resulting language is more simple.</p>
             </div>

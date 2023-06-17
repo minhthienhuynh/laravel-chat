@@ -35,6 +35,8 @@ class AddContactModal extends Component
 
         $room->users()->sync([auth()->id(), $user->id]);
 
+        $this->users = $this->getUnconnectedUsers();
+
         $this->emit('userRoomStored', $room->id);
     }
 

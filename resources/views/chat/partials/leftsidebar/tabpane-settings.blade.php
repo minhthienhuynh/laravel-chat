@@ -60,7 +60,7 @@
         <!-- End profile user -->
 
         <!-- Start User profile description -->
-        <div class="user-setting" data-simplebar>
+        <div class="user-setting overflow-auto">
             <div id="settingprofile" class="accordion accordion-flush">
                 <div class="accordion-item">
                     <div class="accordion-header" id="headerpersonalinfo">

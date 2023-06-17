@@ -11,7 +11,7 @@
         <!-- end p-4 -->
 
         <!-- Start contact lists -->
-        <div class="chat-message-list chat-call-list" data-simplebar>
+        <div class="chat-message-list chat-call-list overflow-auto">
             <ul class="list-unstyled chat-list" id="callList">
 
             </ul>

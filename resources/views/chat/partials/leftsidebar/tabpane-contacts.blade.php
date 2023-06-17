@@ -27,7 +27,7 @@
         </div>
         <!-- end p-4 -->
 
-        <div class="chat-message-list chat-group-list" data-simplebar >
+        <div class="chat-message-list chat-group-list overflow-auto">
             <div class="sort-contact">
                 @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                     <div class="mt-3">

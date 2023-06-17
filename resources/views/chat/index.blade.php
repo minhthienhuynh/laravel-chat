@@ -37,7 +37,27 @@
             contactSelected: 0,
             showUserChat: false,
             bgColor: '{{ auth()->user()::$themes['color-classes'][auth()->user()->options['bg-color']]['color'] }}',
-            bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}'
+            bgImage: 'bg-pattern-{{ auth()->user()->options['bg-image'] }}',
+            joinChat: function(room) {
+                Echo.join(`chat.${room}`)
+                    .here((users) => {
+                        const userIds = users.map(user => user.id);
+                        this.onlineUsers = [...new Set(this.onlineUsers.concat(userIds))];
+                    })
+                    .joining((user) => {
+                        this.onlineUsers.push(user.id);
+                        this.onlineUsers = [...new Set(this.onlineUsers)];
+                    })
+                    .leaving((user) => {
+                        this.onlineUsers = this.onlineUsers.filter(id => id !== user.id);
+                    })
+                    .listen('NewMessage', (e) => {
+                        Livewire.emit('messageReceived', e.id, e.room_id);
+                    })
+                    .error((error) => {
+                        console.error(error);
+                    });
+                }
          }"
          :style="bgColor != '' && { '--bs-primary-rgb': bgColor }">
 

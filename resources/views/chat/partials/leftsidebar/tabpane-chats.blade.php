@@ -25,7 +25,7 @@
 
     </div> <!-- .p-4 -->
 
-    <div class="chat-room-list" data-simplebar>
+    <div class="chat-room-list overflow-auto">
         <!-- Start chat-message-list -->
         @livewire('left-sidebar.chats.favourites')
 

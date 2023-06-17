@@ -35,38 +35,44 @@
                             <button type="button" class="btn btn-sm btn-primary">Share All</button>
                         </div>
                     </div>
-                    <div data-simplebar style="max-height: 150px;" class="mx-n4 px-1"
-                         wire:ignore>
-                        @foreach($rooms->groupBy('list_title') as $listTitle => $list)
-                            <div>
-                                <div class="contact-list-title">
-                                    {{ $listTitle }}
-                                </div>
+                    <div style="max-height: 150px;" class="mx-n4 px-1 overflow-auto">
+                        @isset($rooms)
+                            @php
+                                $rooms->map(function (\App\Models\Room $room) {
+                                    if ($room->isUserType()) {
+                                        $room->display_name = $room->other_users->first()->name;
+                                    } else {
+                                        $room->display_name = $room->name;
+                                    }
 
-                                <ul class="list-unstyled contact-list @if($loop->last) mb-0 @endif">
-                                    @foreach($list as $room)
-                                        <li>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1">
-                                                    <h5 class="font-size-14 m-0">{{ $room->display_name }}</h5>
+                                    $room->list_title = strtoupper($room->display_name)[0];
+                                })->sortBy('list_title');
+                            @endphp
+                            @foreach($rooms->groupBy('list_title') as $listTitle => $list)
+                                <div>
+                                    <div class="contact-list-title">
+                                        {{ $listTitle }}
+                                    </div>
+
+                                    <ul class="list-unstyled contact-list @if($loop->last) mb-0 @endif">
+                                        @foreach($list as $room)
+                                            <li>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h5 class="font-size-14 m-0">{{ $room->display_name }}</h5>
+                                                    </div>
+                                                    <div class="flex-shrink-0">
+                                                        <button type="button" class="btn btn-sm btn-primary @if(in_array($room->id, $selectedRooms)) disabled @endif"
+                                                                wire:click="send({{ $room->id }})">@if(in_array($room->id, $selectedRooms)) Sent @else Send @endif</button>
+                                                    </div>
                                                 </div>
-                                                <div class="flex-shrink-0">
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                            x-data="{ btnName: 'Send' }"
-                                                            :class="{ 'disabled': selectedRooms.includes({{ $room->id }}) }"
-                                                            @click="
-                                                                selectedRooms.push({{ $room->id }});
-                                                                btnName = selectedRooms.includes({{ $room->id }}) ? 'Sent' : 'Send'"
-                                                            x-text="btnName"
-                                                            wire:click="send({{ $room->id }})">Send</button>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <!-- end contact list {{ $listTitle }} -->
-                        @endforeach
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <!-- end contact list {{ $listTitle }} -->
+                            @endforeach
+                        @endisset
                     </div>
                 </div>
             </div>

@@ -2,26 +2,7 @@
     @php($countUnread = auth()->user()->countUnread($room))
     <li id="contact-id-{{ $room->id }}" data-name="{{ $dataName }}"
         :class="{ 'active': contactSelected == {{ $room->id }} }"
-        x-init="
-            Echo.join('chat.{{ $room->id }}')
-                .here((users) => {
-                    userIds = users.map(user => user.id);
-                    onlineUsers = [...new Set(onlineUsers.concat(userIds))];
-                })
-                .joining((user) => {
-                    onlineUsers.push(user.id);
-                    onlineUsers = [...new Set(onlineUsers)];
-                })
-                .leaving((user) => {
-                    onlineUsers = onlineUsers.filter(id => id !== user.id);
-                })
-                .listen('NewMessage', (e) => {
-                    Livewire.emit('messageReceived', e.id, e.room_id);
-                })
-                .error((error) => {
-                    console.error(error);
-                });
-        ">
+        x-init="joinChat({{ $room->id }})">
         <a href="javascript: void(0);" class="@if($countUnread) unread-msg-user @endif"
            wire:click="$emit('contactSelected', {{ $room->id }})"
            @click="contactSelected = {{ $room->id }}; showUserChat = true">

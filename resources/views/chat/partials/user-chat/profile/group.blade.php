@@ -41,7 +41,7 @@
 <!-- End profile user -->
 
 <!-- Start user-profile-desc -->
-<div class="p-4 user-profile-desc" data-simplebar>
+<div class="p-4 user-profile-desc overflow-auto">
 
     <div class="text-center border-bottom">
         <div class="row">

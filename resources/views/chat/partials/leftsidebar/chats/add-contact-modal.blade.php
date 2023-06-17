@@ -21,8 +21,7 @@
                             <h4 class=" font-size-11 text-muted text-uppercase">Contacts</h4>
                         </div>
                     </div>
-                    <div class="contact-modal-list mx-n4 px-1" data-simplebar style="max-height: 200px;"
-                         wire:ignore>
+                    <div class="contact-modal-list mx-n4 px-1 overflow-auto" style="max-height: 200px;">
                         @foreach($users->groupBy('upper_left_name_1') as $key => $users)
                             <div class="mt-3">
                                 <div class="contact-list-title">
@@ -31,10 +30,7 @@
 
                                 <ul class="list-unstyled contact-list">
                                     @foreach($users as $user)
-                                        <li x-data="{ selected: false }"
-                                            :class="{ 'selected pe-none': selected }"
-                                            @click="selected = true"
-                                            wire:click="selectUser({{ $user->id }})" >
+                                        <li wire:click="selectUser({{ $user->id }})">
                                             <div>
                                                 <h5 class="font-size-14 m-0">{{ $user->name }}</h5>
                                             </div>

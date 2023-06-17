@@ -11,7 +11,7 @@
         <!-- end p-4 -->
 
         <!-- Start contact lists -->
-        <div class="chat-message-list chat-bookmark-list" data-simplebar>
+        <div class="chat-message-list chat-bookmark-list overflow-auto">
             <ul class="list-unstyled chat-list">
                 <li>
                     <div class="d-flex align-items-center">

@@ -6,7 +6,7 @@ use App\Events\NewMessage;
 use App\Models\Room;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class ForwardModal extends Component
@@ -14,8 +14,10 @@ class ForwardModal extends Component
     public Collection $rooms;
     public ?Message $message = null;
     public string $content = '';
+    public array $selectedRooms = [];
 
     protected $listeners = [
+        'contactSelected' => 'renderModal',
         'messageForwarding' => 'forwardMessage',
     ];
 
@@ -25,28 +27,17 @@ class ForwardModal extends Component
 
     public function mount()
     {
-        $this->rooms = Room::whereKeyNot(auth()->id())
-            ->whereHas('users', function (Builder $query) {
-                $query->where('id', auth()->id());
-            })
-            ->with('other_users')
-            ->get();
-
-        $this->rooms->map(function (Room $room) {
-            if ($room->isUserType()) {
-                $room->display_name = $room->other_users->first()->name;
-            } else {
-                $room->display_name = $room->name;
-            }
-
-            $room->list_title = strtoupper($room->display_name)[0];
-        })
-        ->sortBy('list_title');
+        //
     }
 
     public function render()
     {
         return view('chat.partials.user-chat.forward-modal');
+    }
+
+    public function renderModal(Room $room)
+    {
+        $this->rooms = $this->getForwardRooms($room);
     }
 
     public function forwardMessage(Message $message)
@@ -56,23 +47,32 @@ class ForwardModal extends Component
 
     public function send(Room $room)
     {
-        try {
-            $this->validate();
+        $this->validate();
 
-            $message = $room->messages()->create([
-                'content' => $this->content,
-                'user_id' => auth()->id(),
-                'options' => ['forward' => $this->message->toArray()],
-            ]);
+        $message = $room->messages()->create([
+            'content' => $this->content,
+            'user_id' => auth()->id(),
+            'options' => ['forward' => $this->message->toArray()],
+        ]);
 
-            broadcast(new NewMessage($message));
-        } catch (\Exception $exception) {
-            logger($exception->getMessage());
-        }
+        $this->selectedRooms[] = $room->id;
+
+        broadcast(new NewMessage($message));
     }
 
     public function resetModal()
     {
-        $this->reset('content');
+        $this->reset('content', 'selectedRooms');
+    }
+
+    protected function getForwardRooms(Room $room)
+    {
+        return Room::query()
+            ->whereKeyNot($room->id)
+            ->whereHas('users', function (Builder $query) {
+                $query->where('id', auth()->id());
+            })
+            ->with('other_users')
+            ->get();
     }
 }
