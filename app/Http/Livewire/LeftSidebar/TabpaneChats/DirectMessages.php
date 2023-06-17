@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Livewire\LeftSidebar\Chats;
+namespace App\Http\Livewire\LeftSidebar\TabpaneChats;
 
 use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class Favourites extends Component
+class DirectMessages extends Component
 {
-    public Collection|array $rooms;
+    public array|Collection $rooms;
 
     protected $listeners = [
-        'favoriteUpdated' => 'refreshRooms',
-        'messageReceived' => 'refreshRooms',
-        'needRerender' => 'refreshRooms',
+        'userRoomStored' => 'refreshRooms',
+        'needRerender' => 'refreshRooms2',
     ];
 
     public function mount()
@@ -24,10 +23,15 @@ class Favourites extends Component
 
     public function render()
     {
-        return view('chat.partials.leftsidebar.chats.favourites');
+        return view('chat.partials.leftsidebar.tabpane-chats.direct-messages');
     }
 
-    public function refreshRooms()
+    public function refreshRooms(Room $room)
+    {
+        $this->rooms->push($room);
+    }
+
+    public function refreshRooms2()
     {
         $this->rooms = $this->getRooms();
     }
@@ -38,8 +42,8 @@ class Favourites extends Component
             ->whereHas('users', function (Builder $query) {
                 $query->where('id', auth()->id());
             })
-            ->whereIn('id', auth()->user()->options['room-favorites'])
-            ->orderBy('type')
+            ->whereIn('id', auth()->user()->options['room-favorites'], 'and', true)
+            ->ofType(Room::TYPE_USER)
             ->with('other_users')
             ->get();
     }

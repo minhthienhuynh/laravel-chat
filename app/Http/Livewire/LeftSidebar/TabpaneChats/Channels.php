@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\LeftSidebar\Chats;
+namespace App\Http\Livewire\LeftSidebar\TabpaneChats;
 
 use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,12 +9,10 @@ use Livewire\Component;
 
 class Channels extends Component
 {
-    public Collection|array $rooms;
+    public array|Collection $rooms;
 
     protected $listeners = [
         'groupRoomStored' => 'refreshRooms',
-        'favoriteUpdated' => 'refreshRooms2',
-        'messageReceived' => 'refreshRooms2',
         'needRerender' => 'refreshRooms2',
     ];
 
@@ -25,7 +23,7 @@ class Channels extends Component
 
     public function render()
     {
-        return view('chat.partials.leftsidebar.chats.channels');
+        return view('chat.partials.leftsidebar.tabpane-chats.channels');
     }
 
     public function refreshRooms(Room $room)

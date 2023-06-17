@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\UserChat;
 
 use App\Events\NewMessage;
-use App\Http\Livewire\UserChat\Traits\LeftSidebarTrait;
-use App\Models\Room;
+use App\Http\Livewire\Traits\LeftSidebarTrait;
 use App\Models\Message;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
@@ -45,7 +45,6 @@ class Conversation extends Component
         }
 
         $message = Message::withTrashed()->find($messageId);
-
         $this->messages = $this->messages->merge(new Collection([$message]));
     }
 
@@ -55,7 +54,7 @@ class Conversation extends Component
             'unread_from_message_id' => $message->id
         ]);
 
-        $this->updateLeftSidebar($this->room);
+        $this->updateChatTabPane($this->room);
     }
 
     public function deleteMessage(Message $message)

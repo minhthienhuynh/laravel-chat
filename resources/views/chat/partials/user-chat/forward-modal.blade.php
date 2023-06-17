@@ -18,7 +18,7 @@
                             <p class="mb-0">{!! @$message->contents ?? '' !!}</p>
                         </div>
                         <textarea class="form-control" placeholder="Type your message..." rows="2"
-                                  wire:model="content"></textarea>
+                                  wire:model.defer="content"></textarea>
                     </div>
                     <hr class="my-4">
                     <div class="input-group mb-3">

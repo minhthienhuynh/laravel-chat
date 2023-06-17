@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\LeftSidebar\Chats;
+namespace App\Http\Livewire\LeftSidebar\TabpaneChats;
 
 use App\Models\Room;
 use App\Models\User;
@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class AddGroupModal extends Component
 {
-    public Collection $users;
+    public array|Collection $users;
     public ?string $name = '';
     public ?string $description = '';
     public ?array $user_ids = [];
@@ -23,7 +23,8 @@ class AddGroupModal extends Component
 
     public function mount()
     {
-        $this->users = User::whereKeyNot(auth()->id())
+        $this->users = User::query()
+            ->whereKeyNot(auth()->id())
             ->orderBy('name')
             ->select('*')
             ->addSelect(DB::raw("UPPER(LEFT(name, 1)) as upper_left_name_1"))
@@ -32,7 +33,7 @@ class AddGroupModal extends Component
 
     public function render()
     {
-        return view('chat.partials.leftsidebar.chats.add-group-modal');
+        return view('chat.partials.leftsidebar.tabpane-chats.add-group-modal');
     }
 
     public function store()

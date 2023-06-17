@@ -10,7 +10,10 @@
                     <div class="flex-shrink-0 chat-user-img user-own-img align-self-center me-3 ms-0"
                          :class="{ 'online': onlineUsers.includes({{ $user->id }}) }">
                         <img src="{{ $user->profile_photo_url }}" class="rounded-circle avatar-sm" alt="{{ $user->name }}">
-                        <span class="user-status"></span>
+                        @if ($user->status != $user::STATUS_INVISIBLE)
+                            <span class="user-status {{ $user->getBGColor() }}"
+                                  :class="{ 'd-none': ! onlineUsers.includes({{ $user->id }}) }"></span>
+                        @endif
                     </div>
                     <div class="flex-grow-1 overflow-hidden">
                         <h6 class="text-truncate mb-0 font-size-18"><a href="#" class="user-profile-show text-reset">{{ $user->name }}</a></h6>

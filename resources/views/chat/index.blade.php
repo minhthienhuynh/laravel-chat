@@ -77,7 +77,7 @@
 
                 <!-- Start chats tab-pane -->
                 <div class="tab-pane show active" id="pills-chat" role="tabpanel" aria-labelledby="pills-chat-tab">
-                    @include('chat.partials.leftsidebar.tabpane-chats')
+                    @livewire('left-sidebar.tabpane-chats')
                 </div>
                 <!-- End chats tab-pane -->
 

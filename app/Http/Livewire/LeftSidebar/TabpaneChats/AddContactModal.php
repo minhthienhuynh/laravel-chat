@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\LeftSidebar\Chats;
+namespace App\Http\Livewire\LeftSidebar\TabpaneChats;
 
 use App\Models\Room;
 use App\Models\User;
@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class AddContactModal extends Component
 {
-    public Collection $users;
+    public array|Collection $users;
 
     public function mount()
     {
@@ -20,7 +20,7 @@ class AddContactModal extends Component
 
     public function render()
     {
-        return view('chat.partials.leftsidebar.chats.add-contact-modal');
+        return view('chat.partials.leftsidebar.tabpane-chats.add-contact-modal');
     }
 
     public function selectUser(User $user)
@@ -42,7 +42,8 @@ class AddContactModal extends Component
 
     protected function getUnconnectedUsers()
     {
-        return User::whereKeyNot(auth()->id())
+        return User::query()
+            ->whereKeyNot(auth()->id())
             ->whereDoesntHave('rooms', function(Builder $query) {
                 $query->whereIn('id', auth()->user()->rooms()
                     ->ofType(Room::TYPE_USER)

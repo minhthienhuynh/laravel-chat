@@ -3,15 +3,12 @@
 namespace App\Http\Livewire\UserChat;
 
 use App\Events\NewMessage;
-use App\Http\Livewire\UserChat\Traits\LeftSidebarTrait;
-use App\Models\Room;
 use App\Models\Message;
+use App\Models\Room;
 use Livewire\Component;
 
 class Input extends Component
 {
-    use LeftSidebarTrait;
-
     public Room $room;
     public array $options = [];
     public string $content = '';
@@ -59,7 +56,6 @@ class Input extends Component
             $this->emitTo('user-chat.conversation', 'messageSent', $message->id);
             $this->emit('focusOnChatInput', true);
             $this->reset('content', 'options');
-            $this->updateLeftSidebar($this->room);
 
             broadcast(new NewMessage($message))->toOthers();
         } catch (\Exception $exception) {

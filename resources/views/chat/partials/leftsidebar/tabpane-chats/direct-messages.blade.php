@@ -17,7 +17,7 @@
     <div class="chat-message-list">
 
         <ul class="list-unstyled chat-list chat-user-list" id="usersList">
-            @include('chat.partials.leftsidebar.chats.chat-list', ['dataName' => 'direct-message'])
+            @include('chat.partials.leftsidebar.tabpane-chats.chat-list', ['dataName' => 'direct-message'])
         </ul>
     </div>
 </div>

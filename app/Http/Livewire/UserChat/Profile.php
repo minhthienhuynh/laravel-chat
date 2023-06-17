@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\UserChat;
 
+use App\Http\Livewire\Traits\LeftSidebarTrait;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +11,8 @@ use Livewire\Component;
 
 class Profile extends Component
 {
+    use LeftSidebarTrait;
+
     public ?Room $room;
     public ?User $user;
     public Collection|array $commonRooms;
@@ -40,13 +43,13 @@ class Profile extends Component
         }
     }
 
-    public function setFavourite($id)
+    public function setFavourite(Room $room)
     {
         $options = auth()->user()->options;
-        $key = array_search($id, $options['room-favorites']);
+        $key = array_search($room->id, $options['room-favorites']);
 
         if ($key === false) {
-            $options['room-favorites'][] = $id;
+            $options['room-favorites'][] = $room->id;
         } else {
             unset($options['room-favorites'][$key]);
         }
@@ -54,7 +57,7 @@ class Profile extends Component
         auth()->user()->options = $options;
         auth()->user()->push();
 
-        $this->emit('favoriteUpdated');
+        $this->updateChatTabPane($room, true);
     }
 
     protected function getCommonRooms(): Collection|array
