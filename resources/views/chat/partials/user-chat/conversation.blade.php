@@ -1,6 +1,17 @@
 <div>
     @php($unreadMessageId = auth()->user()->getUnreadMessageId($room))
-    <ul class="list-unstyled chat-conversation-list" data-unread_from_message_id="{{ $unreadMessageId }}">
+    <ul class="list-unstyled chat-conversation-list" data-unread_from_message_id="{{ $unreadMessageId }}"
+        x-data="{ chatConversation: document.getElementById('chat-conversation') }"
+        x-init="
+            chatConversation.onscroll = function () {
+                if (chatConversation.scrollTop <= 125 && Boolean({{ $hasMore }})) {
+                    @this.loadMore();
+                    chatConversation.classList.add('overflow-hidden');
+                } else {
+                    chatConversation.classList.remove('overflow-hidden');
+                }
+            };
+        ">
         @foreach($messages as $message)
             @if($message->user_id != auth()->id() && $message->id == $unreadMessageId)
                 <hr>
@@ -24,7 +35,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <button type="button" class="btn btn-sm btn-link mt-n2 me-n3 font-size-18"
-                                                    @click="Livewire.emit('scrollToMessage', {{ $message->options['reply']['id'] }})">
+                                                    @click="Livewire.emit('scrollToMessage', {{ $message->options['reply']['id'] }}, { behavior: 'instant', block: 'center', inline: 'nearest' })">
                                                 <i class="ri-arrow-go-back-line"></i>
                                             </button>
                                         </div>

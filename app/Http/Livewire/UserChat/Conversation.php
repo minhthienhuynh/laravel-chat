@@ -6,7 +6,9 @@ use App\Events\NewMessage;
 use App\Http\Livewire\Traits\LeftSidebarTrait;
 use App\Models\Message;
 use App\Models\Room;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\Paginator;
 use Livewire\Component;
 
 class Conversation extends Component
@@ -15,6 +17,10 @@ class Conversation extends Component
 
     public Room $room;
     public Collection $messages;
+    public int $perPage = 50;
+    public int $page = 1;
+    public ?int $lastItemId = null;
+    public bool $hasMore = false;
 
     protected $listeners = [
         'messageSent' => 'refreshMessages',
@@ -24,6 +30,10 @@ class Conversation extends Component
     public function mount()
     {
         $this->messages = $this->getMessages();
+
+        if (! $this->messages->isEmpty()) {
+            $this->lastItemId = $this->messages->last()->id;
+        }
     }
 
     public function render()
@@ -66,13 +76,32 @@ class Conversation extends Component
         broadcast(new NewMessage($message))->toOthers();
     }
 
+    public function loadMore()
+    {
+        $this->page++;
+
+        $messages = $this->getMessages();
+
+        $this->emit('scrollToMessage', $this->messages->first()->id, [
+            'behavior' => 'instant',
+            'block' => 'start',
+            'inline' => 'nearest'
+        ]);
+
+        $this->messages = $messages->merge($this->messages);
+    }
+
     protected function getMessages()
     {
-        return $this->room->messages()
+        /** @var Paginator $paginator */
+        $paginator = $this->room->messages()
+            ->when(isset($this->lastItemId), fn (Builder $query) => $query->where('id', '<=', $this->lastItemId))
             ->latest()
             ->withTrashed()
-            ->simplePaginate(15)
-            ->getCollection()
-            ->reverse();
+            ->simplePaginate($this->perPage, ['*'], 'page', $this->page);
+
+        $this->hasMore = $paginator->hasMorePages();
+
+        return $paginator->getCollection()->reverse();
     }
 }

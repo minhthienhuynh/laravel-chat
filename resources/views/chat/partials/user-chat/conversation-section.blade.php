@@ -67,11 +67,11 @@
             }
         });
 
-        Livewire.on('scrollToMessage', e => {
-            const element = $(`#message-${e}`)[0];
+        Livewire.on('scrollToMessage', (id, options) => {
+            const element = document.getElementById(`message-${id}`);
 
             if (element) {
-                element.scrollIntoViewIfNeeded();
+                element.scrollIntoView(options);
             }
         });
     </script>
