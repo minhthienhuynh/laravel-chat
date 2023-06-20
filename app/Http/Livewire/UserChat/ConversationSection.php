@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\UserChat;
 
+use App\Events\NewMessageTyping;
 use App\Models\Room;
 use Livewire\Component;
 
@@ -11,6 +12,7 @@ class ConversationSection extends Component
 
     protected $listeners = [
         'contactSelected' => 'renderConversation',
+        'userTyping' => 'userTyping',
     ];
 
     public function mount()
@@ -28,5 +30,10 @@ class ConversationSection extends Component
         $this->room = $room;
         $this->emit('focusOnChatInput');
         $this->emit('scrollToUnreadMessage');
+    }
+
+    public function userTyping()
+    {
+        broadcast(new NewMessageTyping($this->room))->toOthers();
     }
 }

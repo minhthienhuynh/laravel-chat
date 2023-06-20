@@ -51,6 +51,9 @@
                     .leaving((user) => {
                         this.onlineUsers = this.onlineUsers.filter(id => id !== user.id);
                     })
+                    .listen('NewMessageTyping', (e) => {
+                        Livewire.emitTo('user-chat.conversation', 'messageTyping', e.room_id, e.user_id);
+                    })
                     .listen('NewMessage', (e) => {
                         Livewire.emit('messageReceived', e.id, e.room_id);
                     })

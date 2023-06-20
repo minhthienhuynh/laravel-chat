@@ -87,5 +87,26 @@
                 </div>
             </li>
         @endforeach
+        @if(! empty($usersTyping))
+            <li class="chat-list left" id="message-typing"
+                x-init="setTimeout(function () {
+                    @this.resetUsersTyping();
+                }, 3000)">
+                <div class="conversation-list">
+                    <div class="chat-avatar">
+                        @foreach($usersTyping as $user)
+                            <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+                        @endforeach
+                    </div>
+                    <div class="user-chat-content">
+                        <div class="ctext-wrap">
+                            <div class="ctext-wrap-content">
+                                <p class="mb-0 ctext-content"><i class="bx bx-dots-horizontal-rounded bx-burst"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        @endif
     </ul>
 </div>

@@ -6,6 +6,7 @@ use App\Events\NewMessage;
 use App\Http\Livewire\Traits\LeftSidebarTrait;
 use App\Models\Message;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
@@ -21,8 +22,10 @@ class Conversation extends Component
     public int $page = 1;
     public ?int $lastItemId = null;
     public bool $hasMore = false;
+    public array $usersTyping = [];
 
     protected $listeners = [
+        'messageTyping' => 'setUsersTyping',
         'messageSent' => 'refreshMessages',
         'messageReceived' => 'refreshMessages2',
     ];
@@ -48,6 +51,15 @@ class Conversation extends Component
         $this->emit('scrollToBottom');
     }
 
+    public function setUsersTyping(Room $room, User $user)
+    {
+        if ($this->room->id == $room->id) {
+            $this->usersTyping[$user->id] = $user;
+        } else {
+            $this->resetUsersTyping();
+        }
+    }
+
     public function refreshMessages2($messageId, $roomId)
     {
         if ($this->room->id != $roomId) {
@@ -55,7 +67,19 @@ class Conversation extends Component
         }
 
         $message = Message::withTrashed()->find($messageId);
+
+        $this->resetUsersTyping();
+
         $this->messages = $this->messages->merge(new Collection([$message]));
+    }
+
+    public function resetUsersTyping(int $userId = null)
+    {
+        if (isset($userId)) {
+            unset($this->usersTyping[$userId]);
+        } else {
+            $this->reset('usersTyping');
+        }
     }
 
     public function makeUnreadFrom(Message $message)
