@@ -13,34 +13,20 @@ class Profile extends Component
 {
     use LeftSidebarTrait;
 
-    public ?Room $room;
-    public ?User $user;
+    public Room $room;
+    public ?User $user = null;
     public Collection|array $commonRooms;
-
-    protected $listeners = [
-        'contactSelected' => 'renderProfile',
-    ];
 
     public function mount()
     {
-        //
+        if ($this->room->isUserType()) {
+            $this->commonRooms = $this->getCommonRooms();
+        }
     }
 
     public function render()
     {
         return view('chat.partials.user-chat.profile-details');
-    }
-
-    public function renderProfile(Room $room)
-    {
-        $this->room = $room;
-
-        if ($room->isUserType()) {
-            $this->user = $room->other_users->first();
-            $this->commonRooms = $this->getCommonRooms();
-        } else {
-            $this->user = null;
-        }
     }
 
     public function setFavourite(Room $room)

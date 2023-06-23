@@ -118,18 +118,7 @@
             <div class="user-chat-overlay"
                  :style="bgColor != '' && { background: `rgb(${bgColor})` }"></div>
 
-            <div class="chat-content d-lg-flex"
-                 x-data="{ showProfileSidebar: false }">
-                <!-- start chat conversation section -->
-                <div class="w-100 overflow-hidden position-relative">
-                    @livewire('user-chat.conversation-section')
-                </div>
-                <!-- end chat conversation section -->
-
-                <!-- start User profile detail sidebar -->
-                @livewire('user-chat.profile')
-                <!-- end User profile detail sidebar -->
-            </div>
+            @livewire('user-chat.chat-content')
             <!-- end user chat content -->
         </div>
         <!-- End User chat -->

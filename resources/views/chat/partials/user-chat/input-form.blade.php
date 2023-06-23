@@ -36,7 +36,7 @@
                                 Please Enter a Message
                             </div>
                             <input autocomplete="off" type="text" class="form-control form-control-lg chat-input" id="chat-input" placeholder="Type your message..."
-                                   @keypress.throttle.1500ms="$wire.emitTo('user-chat.conversation-section', 'userTyping')"
+                                   @keypress.throttle.1500ms="$wire.emitTo('user-chat.chat-content', 'userTyping')"
                                    wire:model.defer="content"
                                    wire:loading.attr="disabled">
                         </div>

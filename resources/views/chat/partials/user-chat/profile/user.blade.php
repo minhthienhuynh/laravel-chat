@@ -25,7 +25,8 @@
                                 <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none" href="#" data-bs-toggle="modal" data-bs-target=".videocallModal">Video <i class="bx bx-video text-muted"></i></a>
                                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Archive <i class="bx bx-archive text-muted"></i></a>
                                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Muted <i class="bx bx-microphone-off text-muted"></i></a>
-                                <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Delete <i class="bx bx-trash text-muted"></i></a>
+                                <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
+                                   wire:click="$emitTo('user-chat.chat-content', 'userLeaving')">Delete <i class="bx bx-trash text-muted"></i></a>
                             </div>
                         </div>
                     </div>
@@ -103,7 +104,8 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Archive <i class="bx bx-archive text-muted"></i></a>
                             <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Muted <i class="bx bx-microphone-off text-muted"></i></a>
-                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Delete <i class="bx bx-trash text-muted"></i></a>
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
+                               wire:click="$emitTo('user-chat.chat-content', 'userLeaving')">Delete <i class="bx bx-trash text-muted"></i></a>
                         </div>
                     </div>
                     <h5 class="font-size-11 text-uppercase text-muted mt-2">More</h5>
