@@ -1,37 +1,50 @@
 <div>
     <div class="chat-content d-lg-flex"
          x-data="{ showProfileSidebar: false }">
-        @isset($room)
-            <!-- start chat conversation section -->
-            <div class="w-100 overflow-hidden position-relative">
-                <!-- conversation -->
-                <div id="users-chat" class="position-relative">
-                    <div class="p-3 p-lg-4 user-chat-topbar">
+        <!-- start chat conversation section -->
+        <div class="w-100 overflow-hidden position-relative">
+            <!-- conversation -->
+            <div id="users-chat" class="position-relative"
+                 x-data="{
+                    toastCopyClipBoard: new bootstrap.Toast(document.getElementById('copyClipBoard')),
+                    copyToClipboard: function(id) {
+                        const isText = $(`#message-${id} .ctext-content`).text();
+                        navigator.clipboard.writeText(isText);
+                    }
+                 }">
+                <div class="p-3 p-lg-4 user-chat-topbar">
+                    @isset($room)
                         @livewire('user-chat.topbar', compact('room'), key("topbar-{$room->id}"))
-                    </div>
-                    <!-- end chat user head -->
+                    @endisset
+                </div>
+                <!-- end chat user head -->
 
-                    <!-- start chat conversation -->
-                    <div class="chat-conversation p-3 p-lg-4 overflow-auto" id="chat-conversation">
+                <!-- start chat conversation -->
+                <div class="chat-conversation p-3 p-lg-4 overflow-auto" id="chat-conversation">
+                    @isset($room)
                         @livewire('user-chat.conversation', compact('room'), key("conversation-{$room->id}"))
-                    </div>
-
-                    <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show d-none" id="copyClipBoard" role="alert">
-                        message copied
-                    </div>
-                    <!-- end chat conversation end -->
+                    @endisset
                 </div>
 
-                <!-- start chat input section -->
-                @livewire('user-chat.input', compact('room'), key("input-{$room->id}"))
-                <!-- end chat input section -->
+                <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade hide" id="copyClipBoard" role="alert">
+                    message copied
+                </div>
+                <!-- end chat conversation end -->
             </div>
-            <!-- end chat conversation section -->
 
-            <!-- start User profile detail sidebar -->
+            <!-- start chat input section -->
+            @isset($room)
+                @livewire('user-chat.input', compact('room'), key("input-{$room->id}"))
+            @endisset
+            <!-- end chat input section -->
+        </div>
+        <!-- end chat conversation section -->
+
+        <!-- start User profile detail sidebar -->
+        @isset($room)
             @livewire('user-chat.profile', compact('room', 'user'), key("profile-{$room->id}"))
-            <!-- end User profile detail sidebar -->
         @endisset
+        <!-- end User profile detail sidebar -->
     </div>
 </div>
 

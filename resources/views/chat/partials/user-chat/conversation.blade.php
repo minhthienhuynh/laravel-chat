@@ -65,7 +65,8 @@
                                            wire:click="$emitTo('user-chat.input', 'messageReplying', {{ $message->id }})">Reply <i class="bx bx-share ms-2 text-muted"></i></a>
                                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-bs-toggle="modal" data-bs-target=".forwardModal"
                                            wire:click="$emitTo('user-chat.forward-modal', 'messageForwarding', {{ $message->id }})">Forward <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-0">Copy <i class="bx bx-copy text-muted ms-2"></i></a>
+                                        <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-0"
+                                           @click="copyToClipboard({{ $message->id }}); toastCopyClipBoard.show();">Copy <i class="bx bx-copy text-muted ms-2"></i></a>
                                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
                                         @if ($message->user_id != auth()->id())
                                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="#"
