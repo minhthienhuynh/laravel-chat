@@ -1,0 +1,11 @@
+{
+  "name": "Chat",
+  "description": "Chat app.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "icons": [{
+    "src": "images/favicon.ico",
+    "sizes": "256x256",
+    "type": "image/png"
+  }]
+}

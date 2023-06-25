@@ -1,6 +1,8 @@
 @section('title', 'Chat')
 
 @push('styles')
+    <link rel="manifest" href="{{ asset('assets/manifest.json') }}" />
+
     <!-- glightbox css -->
     <link rel="stylesheet" href="{{ asset('assets/libs/glightbox/css/glightbox.min.css') }}">
 
