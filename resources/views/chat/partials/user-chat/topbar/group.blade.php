@@ -53,7 +53,8 @@
                         <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Archive <i class="bx bx-archive text-muted"></i></a>
                         <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Muted <i class="bx bx-microphone-off text-muted"></i></a>
                         <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
-                           wire:click="$emitTo('user-chat.chat-content', 'userLeaving')">Delete <i class="bx bx-trash text-muted"></i></a>
+                           wire:click="$emitTo('user-chat.chat-content', 'userLeaving')"
+                           @click="showUserChat = false">Delete <i class="bx bx-trash text-muted"></i></a>
                     </div>
                 </div>
             </li>

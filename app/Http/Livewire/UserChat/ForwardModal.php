@@ -11,13 +11,12 @@ use Livewire\Component;
 
 class ForwardModal extends Component
 {
-    public Collection $rooms;
+    public array|Collection $rooms;
     public ?Message $message = null;
     public string $content = '';
     public array $selectedRooms = [];
 
     protected $listeners = [
-        'contactSelected' => 'renderModal',
         'messageForwarding' => 'forwardMessage',
     ];
 
@@ -35,14 +34,10 @@ class ForwardModal extends Component
         return view('chat.partials.user-chat.forward-modal');
     }
 
-    public function renderModal(Room $room)
-    {
-        $this->rooms = $this->getForwardRooms($room);
-    }
-
-    public function forwardMessage(Message $message)
+    public function forwardMessage(Message $message, Room $room)
     {
         $this->message = $message;
+        $this->rooms = $this->getForwardRooms($room);
     }
 
     public function send(Room $room)
@@ -65,7 +60,7 @@ class ForwardModal extends Component
         $this->reset('content', 'selectedRooms');
     }
 
-    protected function getForwardRooms(Room $room)
+    protected function getForwardRooms(Room $room): Collection|array
     {
         return Room::query()
             ->whereKeyNot($room->id)

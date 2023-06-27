@@ -31,9 +31,11 @@
                         <div class="flex-grow-1">
                             <h4 class="mb-0 font-size-11 text-muted text-uppercase">Contacts</h4>
                         </div>
+                        {{--
                         <div class="flex-shrink-0">
                             <button type="button" class="btn btn-sm btn-primary">Share All</button>
                         </div>
+                        --}}
                     </div>
                     <div style="max-height: 150px;" class="mx-n4 px-1 overflow-auto">
                         @isset($rooms)
