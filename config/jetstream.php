@@ -59,7 +59,7 @@ return [
 
     'features' => [
         // Features::termsAndPrivacyPolicy(),
-        // Features::profilePhotos(),
+        Features::profilePhotos(),
         // Features::api(),
         // Features::teams(['invitations' => true]),
         Features::accountDeletion(),
@@ -76,6 +76,6 @@ return [
     |
     */
 
-    'profile_photo_disk' => 'public',
+    'profile_photo_disk' => env('LIVEWIRE_PROFILE_PHOTO_DISK', 'public'),
 
 ];

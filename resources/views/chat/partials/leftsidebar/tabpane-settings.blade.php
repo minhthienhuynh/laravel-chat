@@ -31,7 +31,8 @@
             <div class="mb-3 profile-user">
                 <img src="{{ auth()->user()->profile_photo_url }}" class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image">
                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                    <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
+                    <input id="profile-img-file-input" type="file" class="profile-img-file-input"
+                           wire:model="photo">
                     <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                         <span class="avatar-title rounded-circle bg-light text-body">
                             <i class="bx bxs-camera"></i>

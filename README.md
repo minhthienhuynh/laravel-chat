@@ -58,6 +58,20 @@ PUSHER_SCHEME=http
 PUSHER_APP_CLUSTER=mt1
 ```
 
+#### Setup MinIO
+
+###### Setup .env
+
+```dotenv
+FILESYSTEM_DISK=s3
+AWS_ACCESS_KEY_ID=sail
+AWS_SECRET_ACCESS_KEY=password
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=local
+AWS_ENDPOINT=http://minio:9000
+AWS_USE_PATH_STYLE_ENDPOINT=true
+```
+
 ##### GOTO [Laravel Chat](http://localhost)
 
 ## License
